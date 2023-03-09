@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DbContext\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
   </ItemGroup>
 

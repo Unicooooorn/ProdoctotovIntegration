@@ -7,9 +7,13 @@ namespace ProdoctorovIntegration.Application.DbContext;
 
 public class HospitalDbContext : Microsoft.EntityFrameworkCore.DbContext
 {
+    private readonly DbContextInitProperties _initProperties;
+
     public HospitalDbContext(
-        DbContextOptions<HospitalDbContext> options) : base(options)
-    { }
+        DbContextOptions<HospitalDbContext> options, DbContextInitProperties initProperties) : base(options)
+    {
+        _initProperties = initProperties;
+    }
 
     public DbSet<ContactTypeInfo> Type => Set<ContactTypeInfo>();
 
@@ -28,5 +32,6 @@ public class HospitalDbContext : Microsoft.EntityFrameworkCore.DbContext
         modelBuilder.HasDefaultSchema("HOSPITAL");
 
         modelBuilder.UseSerialColumns();
+        modelBuilder.ApplyConfigurationsFromAssembly(_initProperties.MappingAssembly);
     }
 }

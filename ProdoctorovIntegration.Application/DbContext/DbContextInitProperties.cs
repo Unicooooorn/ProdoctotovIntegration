@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace ProdoctorovIntegration.Infrastructure.Configuration;
+namespace ProdoctorovIntegration.Application.DbContext;
 
 public class DbContextInitProperties
 {
