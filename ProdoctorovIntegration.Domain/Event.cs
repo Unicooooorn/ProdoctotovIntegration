@@ -12,6 +12,6 @@ public class Event
     public string Note { get; set; } = string.Empty;
     public bool IsForProdoctorov { get; set; }
     public Guid? ClaimId { get; set; }
-    public Worker.Worker InsertUserId { get; set; } = new();
-    public Worker.Worker UpdateUserId { get; set; } = new();
+    public Worker.Worker InsertUser { get; set; } = new();
+    public Worker.Worker UpdateUser { get; set; } = new();
 }

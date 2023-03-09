@@ -17,10 +17,9 @@ public class WorkerConfiguration : IEntityTypeConfiguration<Worker>
         builder.HasIndex(x => x.Id, "IDX_WORKER_ID")
             .IsUnique();
 
-        builder.Property<long>("STAFF_ID");
         builder.HasOne(x => x.Staff)
             .WithOne()
-            .HasForeignKey("STAFF_ID");
+            .HasForeignKey<Staff>(x => x.Id);
 
         builder.Property(x => x.FirstName)
             .HasColumnName("FIRST_NAME");

@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ProdoctorovIntegration.Domain;
+using ProdoctorovIntegration.Domain.Client;
+using ProdoctorovIntegration.Domain.Worker;
 
 namespace ProdoctorovIntegration.Infrastructure.EntityTypeConfiguration;
 
@@ -17,21 +19,17 @@ public class EventConfiguration : IEntityTypeConfiguration<Event>
         builder.HasIndex(x => x.Id, "IDX_EVENT_ID")
             .IsUnique();
 
-        builder.Property<long>("CLIENT_ID");
         builder.HasOne(x => x.Client)
             .WithOne()
-            .HasForeignKey("CLIENT_ID");
-        builder.HasIndex(x => x.Client.Id, "IDX_EVENT_CLIENT_ID");
+            .HasForeignKey<Client>(x => x.Id);
 
         builder.Property(x => x.ClaimId)
             .HasColumnName("CLAIM_ID");
         builder.HasIndex(x => x.ClaimId, "IDX_EVENT_CLAIM_ID");
 
-        builder.Property<long>("WORKER_ID");
         builder.HasOne(x => x.Worker)
             .WithOne()
-            .HasForeignKey("WORKER_ID");
-        builder.HasIndex(x => x.Worker.Id, "IDX_EVENT_CLIENT_ID");
+            .HasForeignKey<Worker>(x => x.Id);
 
         builder.Property(x => x.ClientData)
             .HasColumnName("CLIENT_DATA");
@@ -48,17 +46,13 @@ public class EventConfiguration : IEntityTypeConfiguration<Event>
         builder.Property(x => x.RoomId)
             .HasColumnName("ROOM_ID");
 
-        builder.Property<long>("INSERT_USER_ID");
-        builder.HasOne(x => x.InsertUserId)
+        builder.HasOne(x => x.InsertUser)
             .WithOne()
-            .HasForeignKey("INSERT_USER_ID");
-        builder.HasIndex(x => x.InsertUserId.Id, "IDX_EVENT_INSERT_USER_ID");
+            .HasForeignKey<Worker>(x => x.Id);
 
-        builder.Property<long>("UPDATE_USER_ID");
-        builder.HasOne(x => x.UpdateUserId)
+        builder.HasOne(x => x.UpdateUser)
             .WithOne()
-            .HasForeignKey("UPDATE_USER_ID");
-        builder.HasIndex(x => x.UpdateUserId.Id, "IDX_EVENT_UPDATE_USER_ID");
+            .HasForeignKey<Worker>(x => x.Id);
 
         builder.Property(x => x.Note)
             .HasColumnName("NOTE");
