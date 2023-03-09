@@ -1,4 +1,4 @@
-using ProdoctorovIntegration.Infrastructure;
+using ProdoctorovIntegration.Infrastructure.Configuration;
 using Serilog;
 
 var logger = new LoggerConfiguration().CreateLogger();
