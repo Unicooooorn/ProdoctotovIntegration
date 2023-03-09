@@ -17,15 +17,15 @@ namespace ProdoctorovIntegration.Infrastructure.Configuration
                 dbContext.Database.Migrate();
         }
 
-        public static IServiceCollection AddEfCore(
-            this IServiceCollection services,
+        public static void AddEfCore(this IServiceCollection services,
             string dbConnectionString)
         {
-            return services
+            services
                 .AddSingleton(new DbContextInitProperties(typeof(ContactTypeInfoConfiguration).Assembly))
                 .AddDbContext<HospitalDbContext>(
                     options => options.UseNpgsql(
-                        dbConnectionString));
+                        dbConnectionString,
+                        x => x.MigrationsAssembly("ProdoctorovIntegration.Infrastructure")));
         }
     }
 }
