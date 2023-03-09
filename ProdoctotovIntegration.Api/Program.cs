@@ -8,6 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog(logger);
 
+builder.Services.AddEfCore(
+    builder.Configuration.GetConnectionString("ServiceDataContext") ??
+    throw new Exception("Failed to find connection string"));
+
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 

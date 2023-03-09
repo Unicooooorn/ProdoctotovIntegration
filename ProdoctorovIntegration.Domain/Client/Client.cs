@@ -2,6 +2,7 @@
 
 public class Client
 {
+    public long Id { get; set; }
     public string SurName { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
     public string PatrName { get; set; } = string.Empty;

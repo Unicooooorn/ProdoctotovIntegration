@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -13,6 +13,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ProdoctorovIntegration.Application\ProdoctorovIntegration.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="EntityTypeConfiguration\WorkerConfiguration\" />
   </ItemGroup>
 
 </Project>

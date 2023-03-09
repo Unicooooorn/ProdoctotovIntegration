@@ -2,6 +2,7 @@
 
 public class Event
 {
+    public long Id { get; set; }
     public DateTime StartDate { get; set; }
     public long Duration { get; set; }
     public Worker.Worker Worker { get; set; } = new();
@@ -11,6 +12,6 @@ public class Event
     public string Note { get; set; } = string.Empty;
     public bool IsForProdoctorov { get; set; }
     public Guid? ClaimId { get; set; }
-    public long InsertUserId { get; set; }
-    public long UpdateUserId { get; set; }
+    public Worker.Worker InsertUserId { get; set; } = new();
+    public Worker.Worker UpdateUserId { get; set; } = new();
 }
