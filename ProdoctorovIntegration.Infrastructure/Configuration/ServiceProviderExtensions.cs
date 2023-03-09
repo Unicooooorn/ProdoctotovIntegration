@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ProdoctorovIntegration.Application.DbContext;
+using ProdoctorovIntegration.Infrastructure.EntityTypeConfiguration.ClientConfiguration;
 
 namespace ProdoctorovIntegration.Infrastructure.Configuration
 {
@@ -21,7 +22,7 @@ namespace ProdoctorovIntegration.Infrastructure.Configuration
             string dbConnectionString)
         {
             return services
-                .AddSingleton(new DbContextInitProperties())
+                .AddSingleton(new DbContextInitProperties(typeof(ContactTypeInfoConfiguration).Assembly))
                 .AddDbContext<HospitalDbContext>(
                     options => options.UseNpgsql(
                         dbConnectionString,
