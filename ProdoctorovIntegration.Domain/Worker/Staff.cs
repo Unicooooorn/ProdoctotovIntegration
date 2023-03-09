@@ -2,6 +2,6 @@
 
 public class Staff
 {
-    public Department Department { get; set; } = new();
-    public Speciality Speciality { get; set; } = new();
+    public string Department { get; set; } = string.Empty;
+    public string Speciality { get; set; } = string.Empty;
 }

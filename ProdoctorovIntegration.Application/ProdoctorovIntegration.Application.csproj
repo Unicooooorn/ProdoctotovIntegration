@@ -10,4 +10,12 @@
     <Folder Include="DbContext\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ProdoctorovIntegration.Domain\ProdoctorovIntegration.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
