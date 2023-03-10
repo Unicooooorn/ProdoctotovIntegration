@@ -1,3 +1,5 @@
+using ProdoctorovIntegration.Application.Authentication;
+using ProdoctorovIntegration.Application.Options.Authentication;
 using ProdoctorovIntegration.Infrastructure.Configuration;
 using Serilog;
 
@@ -11,6 +13,19 @@ builder.Host.UseSerilog(logger);
 builder.Services.AddEfCore(
     builder.Configuration.GetConnectionString("ServiceDataContext") ??
     throw new Exception("Failed to find connection string"));
+
+builder.Services.AddOptions()
+    .Configure<AuthenticationOptions>(o => o.Token = builder.Configuration.GetSection("Authentication:AuthenticationToken").Get<string>())
+    .AddAuthentication(ApiKeyAuthenticationOptions.AuthenticationScheme)
+    .AddScheme<ApiKeyAuthenticationOptions, ApiKeyAuthenticationHandler>(
+        ApiKeyAuthenticationOptions.AuthenticationScheme, _ => {});
+
+builder.Services.AddAuthorization(o =>
+{
+    o.AddPolicy(ApiKeyAuthenticationOptions.AuthenticationScheme, policy =>
+        policy.RequireAuthenticatedUser());
+});
+
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
