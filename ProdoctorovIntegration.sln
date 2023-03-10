@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdoctorovIntegration.Api", "ProdoctotovIntegration.Api\ProdoctorovIntegration.Api.csproj", "{F8BF1C3E-EE86-4051-B33A-374571BDAAA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProdoctorovIntegration.Api", "ProdoctotovIntegration.Api\ProdoctorovIntegration.Api.csproj", "{F8BF1C3E-EE86-4051-B33A-374571BDAAA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdoctorovIntegration.Infrastructure", "ProdoctorovIntegration.Infrastructure\ProdoctorovIntegration.Infrastructure.csproj", "{37FD97A9-DC61-4E36-9120-546422E0D113}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProdoctorovIntegration.Infrastructure", "ProdoctorovIntegration.Infrastructure\ProdoctorovIntegration.Infrastructure.csproj", "{37FD97A9-DC61-4E36-9120-546422E0D113}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdoctorovIntegration.Application", "ProdoctorovIntegration.Application\ProdoctorovIntegration.Application.csproj", "{C52DA7B3-5129-477D-BC02-297E27C8FEE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProdoctorovIntegration.Application", "ProdoctorovIntegration.Application\ProdoctorovIntegration.Application.csproj", "{C52DA7B3-5129-477D-BC02-297E27C8FEE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdoctorovIntegration.Domain", "ProdoctorovIntegration.Domain\ProdoctorovIntegration.Domain.csproj", "{16D4A364-E537-4BED-888E-366DD171B601}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProdoctorovIntegration.Domain", "ProdoctorovIntegration.Domain\ProdoctorovIntegration.Domain.csproj", "{16D4A364-E537-4BED-888E-366DD171B601}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdoctorovIntegration.Tests", "ProdoctorovIntegration.Tests\ProdoctorovIntegration.Tests.csproj", "{143EC81A-EC56-46A7-8C7C-39ACA5013420}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{16D4A364-E537-4BED-888E-366DD171B601}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16D4A364-E537-4BED-888E-366DD171B601}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16D4A364-E537-4BED-888E-366DD171B601}.Release|Any CPU.Build.0 = Release|Any CPU
+		{143EC81A-EC56-46A7-8C7C-39ACA5013420}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{143EC81A-EC56-46A7-8C7C-39ACA5013420}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{143EC81A-EC56-46A7-8C7C-39ACA5013420}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{143EC81A-EC56-46A7-8C7C-39ACA5013420}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

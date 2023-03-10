@@ -27,6 +27,8 @@ public class HospitalDbContext : Microsoft.EntityFrameworkCore.DbContext
 
     public DbSet<Event> Event => Set<Event>();
 
+    public DbSet<ContactTypeInfo> ContactType => Set<ContactTypeInfo>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("HOSPITAL");
