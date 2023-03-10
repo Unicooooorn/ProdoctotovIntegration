@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
   </ItemGroup>
@@ -16,7 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Mapping\" />
     <Folder Include="Options\Authentication\" />
+    <Folder Include="Requests\Schedule\" />
   </ItemGroup>
 
 </Project>
