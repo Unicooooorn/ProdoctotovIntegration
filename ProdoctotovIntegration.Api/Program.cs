@@ -1,5 +1,6 @@
 using System.Reflection;
-using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.OpenApi.Models;
 using ProdoctorovIntegration.Application.Authentication;
 using ProdoctorovIntegration.Application.Options.Authentication;
@@ -18,8 +19,12 @@ builder.Services.AddEfCore(
     builder.Configuration.GetConnectionString("ServiceDataContext") ??
     throw new Exception("Failed to find connection string"));
 
+var authenticationOptions =
+    builder.Configuration.GetSection(AuthenticationOptions.Position).Get<AuthenticationOptions>() ??
+    throw new Exception("Failed to find Authentication options");
+
 builder.Services.AddOptions()
-    .Configure<AuthenticationOptions>(o => o.Token = builder.Configuration.GetSection("Authentication:AuthenticationToken").Get<string>())
+    .Configure<AuthenticationOptions>(o => o.Token = authenticationOptions.Token)
     .AddAuthentication(ApiKeyAuthenticationOptions.AuthenticationScheme)
     .AddScheme<ApiKeyAuthenticationOptions, ApiKeyAuthenticationHandler>(
         ApiKeyAuthenticationOptions.AuthenticationScheme, _ => {});
@@ -32,9 +37,25 @@ builder.Services.AddAuthorization(o =>
         policy.RequireAuthenticatedUser());
 });
 
+builder.Services.AddVersionedApiExplorer(opt =>
+{
+    opt.GroupNameFormat = "'v'VVV";
+    opt.SubstituteApiVersionInUrl = true;
+});
+builder.Services
+    .AddApiVersioning(opt =>
+    {
+        opt.ReportApiVersions = true;
+        opt.DefaultApiVersion = new ApiVersion(1, 0);
+        opt.ApiVersionReader = new UrlSegmentApiVersionReader();
+        opt.AssumeDefaultVersionWhenUnspecified = true;
+    });
+
 builder.Services.AddSwaggerGen(opt =>
 {
-    opt.AddSecurityDefinition("Bearer",
+    opt.SwaggerDoc("v1", new OpenApiInfo{Title = "ProdoctorovIntegration.Api", Version = "v1"});
+
+    opt.AddSecurityDefinition(authenticationOptions.Token,
         new OpenApiSecurityScheme
         {
             Description = "Enter here your Token",

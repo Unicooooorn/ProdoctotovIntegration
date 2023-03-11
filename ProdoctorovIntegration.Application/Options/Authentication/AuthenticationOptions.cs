@@ -2,5 +2,6 @@
 
 public class AuthenticationOptions
 {
-    public string? Token { get; set; } = string.Empty;
+    public const string Position = "Authentication";
+    public string Token { get; set; } = string.Empty;
 }
