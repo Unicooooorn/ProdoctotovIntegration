@@ -40,7 +40,7 @@ public static class EventMap
     {
         var sb = new StringBuilder();
 
-        sb.Append(worker.SurName);
+        sb.Append(worker.LastName);
         sb.Append(Space);
         sb.Append(worker.FirstName);
         sb.Append(Space);

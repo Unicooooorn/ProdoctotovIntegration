@@ -21,8 +21,8 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
             .HasColumnName("FIRST_NAME");
         builder.Property(x => x.PatrName)
             .HasColumnName("PATR_NAME");
-        builder.Property(x => x.SurName)
-            .HasColumnName("SUR_NAME");
+        builder.Property(x => x.LastName)
+            .HasColumnName("LAST_NAME");
         builder.Property(x => x.BirthDay)
             .HasColumnName("BIRTHDAY");
     }
