@@ -12,6 +12,4 @@ public class Event
     public string Note { get; set; } = string.Empty;
     public bool IsForProdoctorov { get; set; }
     public Guid? ClaimId { get; set; }
-    public Worker.Worker? InsertUser { get; set; } 
-    public Worker.Worker? UpdateUser { get; set; } 
 }

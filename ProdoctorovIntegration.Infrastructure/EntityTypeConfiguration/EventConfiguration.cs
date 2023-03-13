@@ -29,7 +29,8 @@ public class EventConfiguration : IEntityTypeConfiguration<Event>
 
         builder.HasOne(x => x.Worker)
             .WithOne()
-            .HasForeignKey<Worker>(x => x.Id);
+            .HasForeignKey<Worker>(x => x.Id)
+            .HasConstraintName("FK_EVENT_WORKER_ID");
 
         builder.Property(x => x.ClientData)
             .HasColumnName("CLIENT_DATA");
@@ -45,14 +46,6 @@ public class EventConfiguration : IEntityTypeConfiguration<Event>
 
         builder.Property(x => x.RoomId)
             .HasColumnName("ROOM_ID");
-
-        builder.HasOne(x => x.InsertUser)
-            .WithOne()
-            .HasForeignKey<Worker>(x => x.Id);
-
-        builder.HasOne(x => x.UpdateUser)
-            .WithOne()
-            .HasForeignKey<Worker>(x => x.Id);
 
         builder.Property(x => x.Note)
             .HasColumnName("NOTE");

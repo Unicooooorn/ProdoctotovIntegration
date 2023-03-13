@@ -21,10 +21,12 @@ public class ClientContactConfiguration : IEntityTypeConfiguration<ClientContact
 
         builder.HasOne(x => x.ContactInfoType)
             .WithOne()
-            .HasForeignKey<ContactTypeInfo>(x => x.Id);
+            .HasForeignKey<ContactTypeInfo>(x => x.Id)
+            .HasConstraintName("FK_CLICON_CONTYPEID");
 
         builder.HasOne(x => x.Client)
             .WithOne()
-            .HasForeignKey<Client>(x => x.Id);
+            .HasForeignKey<Client>(x => x.Id)
+            .HasConstraintName("FK_CLICON_CLIID");
     }
 }

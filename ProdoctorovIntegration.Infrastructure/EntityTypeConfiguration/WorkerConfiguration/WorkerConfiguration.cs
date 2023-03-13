@@ -19,7 +19,8 @@ public class WorkerConfiguration : IEntityTypeConfiguration<Worker>
 
         builder.HasOne(x => x.Staff)
             .WithOne()
-            .HasForeignKey<Staff>(x => x.Id);
+            .HasForeignKey<Staff>(x => x.Id)
+            .HasConstraintName("FK_WORKER_STAFF_ID");
 
         builder.Property(x => x.FirstName)
             .HasColumnName("FIRST_NAME");
