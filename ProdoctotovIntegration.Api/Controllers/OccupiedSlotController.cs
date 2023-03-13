@@ -6,7 +6,7 @@ namespace ProdoctorovIntegration.Api.Controllers;
 
 
 [ApiController]
-[Route("v{version:apiVersion}/{action}")]
+[Route("v{version:apiVersion}")]
 public class OccupiedSlotController
 {
     private readonly IMediator _mediator;
