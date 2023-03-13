@@ -25,9 +25,9 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
 
             modelBuilder.Entity("ProdoctorovIntegration.Domain.Client.Client", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("uuid")
                         .HasColumnName("ID");
 
                     b.Property<DateTime?>("BirthDay")
@@ -59,12 +59,10 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
 
             modelBuilder.Entity("ProdoctorovIntegration.Domain.Client.ClientContact", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("uuid")
                         .HasColumnName("ID");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("Id"));
 
                     b.Property<long>("ContactOnlyDigits")
                         .HasColumnType("bigint")
@@ -80,9 +78,9 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
 
             modelBuilder.Entity("ProdoctorovIntegration.Domain.Client.ContactTypeInfo", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("uuid")
                         .HasColumnName("ID");
 
                     b.Property<long>("Code")
@@ -96,7 +94,7 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "Id" }, "IDX_CONTACT_TYPE_INFO_ID")
+                    b.HasIndex(new[] { "Id" }, "IDX_CONTACT_TYPE_INFO")
                         .IsUnique();
 
                     b.ToTable("CONTACT_TYPE", "HOSPITAL");
@@ -104,12 +102,10 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
 
             modelBuilder.Entity("ProdoctorovIntegration.Domain.Event", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("uuid")
                         .HasColumnName("ID");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("Id"));
 
                     b.Property<Guid?>("ClaimId")
                         .HasColumnType("uuid")
@@ -124,8 +120,8 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("DURATION");
 
-                    b.Property<long?>("InsertUserId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("InsertUserId")
+                        .HasColumnType("uuid");
 
                     b.Property<bool>("IsForProdoctorov")
                         .HasColumnType("boolean")
@@ -144,8 +140,8 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("START_DATE");
 
-                    b.Property<long>("WorkerId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("WorkerId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -163,9 +159,9 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
 
             modelBuilder.Entity("ProdoctorovIntegration.Domain.Worker.Staff", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("uuid")
                         .HasColumnName("ID");
 
                     b.Property<string>("Department")
@@ -188,9 +184,9 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
 
             modelBuilder.Entity("ProdoctorovIntegration.Domain.Worker.Worker", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("uuid")
                         .HasColumnName("ID");
 
                     b.Property<string>("FirstName")

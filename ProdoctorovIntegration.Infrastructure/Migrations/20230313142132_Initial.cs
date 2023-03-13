@@ -1,13 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace ProdoctorovIntegration.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,8 +19,7 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                 schema: "HOSPITAL",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false),
                     CONTACT_ONLY_DIGITS = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -34,7 +32,7 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                 schema: "HOSPITAL",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "bigint", nullable: false),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false),
                     CODE = table.Column<long>(type: "bigint", nullable: false),
                     NAME = table.Column<string>(type: "text", nullable: false)
                 },
@@ -55,8 +53,8 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                 schema: "HOSPITAL",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "bigint", nullable: false),
-                    SUR_NAME = table.Column<string>(type: "text", nullable: false),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false),
+                    LAST_NAME = table.Column<string>(type: "text", nullable: false),
                     FIRST_NAME = table.Column<string>(type: "text", nullable: false),
                     PATR_NAME = table.Column<string>(type: "text", nullable: false),
                     BIRTHDAY = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
@@ -78,17 +76,16 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                 schema: "HOSPITAL",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false),
                     START_DATE = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     DURATION = table.Column<long>(type: "bigint", nullable: false),
-                    WorkerId = table.Column<long>(type: "bigint", nullable: false),
+                    WorkerId = table.Column<Guid>(type: "uuid", nullable: false),
                     ROOM_ID = table.Column<long>(type: "bigint", nullable: false),
                     CLIENT_DATA = table.Column<string>(type: "text", nullable: false),
                     NOTE = table.Column<string>(type: "text", nullable: false),
                     IS_FOR_PRODOCTOROV = table.Column<bool>(type: "boolean", nullable: false),
                     CLAIM_ID = table.Column<Guid>(type: "uuid", nullable: true),
-                    InsertUserId = table.Column<long>(type: "bigint", nullable: false)
+                    InsertUserId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -100,10 +97,10 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                 schema: "HOSPITAL",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "bigint", nullable: false),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false),
                     FIRST_NAME = table.Column<string>(type: "text", nullable: false),
                     PATR_NAME = table.Column<string>(type: "text", nullable: false),
-                    SUR_NAME = table.Column<string>(type: "text", nullable: false)
+                    LAST_NAME = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -122,7 +119,7 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                 schema: "HOSPITAL",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "bigint", nullable: false),
+                    ID = table.Column<Guid>(type: "uuid", nullable: false),
                     DEPARTMENT = table.Column<string>(type: "text", nullable: false),
                     SPECILITY = table.Column<string>(type: "text", nullable: false)
                 },
@@ -153,7 +150,7 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IDX_CONTACT_TYPE_INFO_ID",
+                name: "IDX_CONTACT_TYPE_INFO",
                 schema: "HOSPITAL",
                 table: "CONTACT_TYPE",
                 column: "ID",
@@ -215,8 +212,7 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                 column: "InsertUserId",
                 principalSchema: "HOSPITAL",
                 principalTable: "WORKER",
-                principalColumn: "ID",
-                onDelete: ReferentialAction.Cascade);
+                principalColumn: "ID");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_EVENT_WORKER_WorkerId",

@@ -2,7 +2,7 @@
 
 public class Event
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
     public DateTime StartDate { get; set; }
     public long Duration { get; set; }
     public Worker.Worker Worker { get; set; } = new();

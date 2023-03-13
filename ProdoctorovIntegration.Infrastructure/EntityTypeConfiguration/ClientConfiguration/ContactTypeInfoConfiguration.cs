@@ -14,7 +14,7 @@ public class ContactTypeInfoConfiguration : IEntityTypeConfiguration<ContactType
         builder.Property(x => x.Id)
             .HasColumnName("ID")
             .ValueGeneratedOnAdd();
-        builder.HasIndex(x => x.Id, "IDX_CONTACT_TYPE_INFO_ID")
+        builder.HasIndex(x => x.Id, "IDX_CONTACT_TYPE_INFO")
             .IsUnique();
 
         builder.Property(x => x.Code)

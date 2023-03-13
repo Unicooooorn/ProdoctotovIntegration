@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Folder Include="EntityTypeConfiguration\WorkerConfiguration\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

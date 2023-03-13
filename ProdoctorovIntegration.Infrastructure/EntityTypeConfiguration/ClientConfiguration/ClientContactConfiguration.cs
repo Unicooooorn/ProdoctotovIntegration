@@ -16,12 +16,12 @@ public class ClientContactConfiguration : IEntityTypeConfiguration<ClientContact
         builder.HasIndex(x => x.Id, "IDX_CLIENT_CONTACT_ID")
             .IsUnique();
 
+        builder.Property(x => x.ContactOnlyDigits)
+            .HasColumnName("CONTACT_ONLY_DIGITS");
+
         builder.HasOne(x => x.ContactInfoType)
             .WithOne()
             .HasForeignKey<ContactTypeInfo>(x => x.Id);
-
-        builder.Property(x => x.ContactOnlyDigits)
-            .HasColumnName("CONTACT_ONLY_DIGITS");
 
         builder.HasOne(x => x.Client)
             .WithOne()
