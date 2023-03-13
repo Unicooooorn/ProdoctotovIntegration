@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using ProdoctorovIntegration.Application.Requests.OccupiedDoctorScheduleSlot;
 using ProdoctorovIntegration.Application.Requests.Schedule;
 using ProdoctorovIntegration.Domain;
 using ProdoctorovIntegration.Domain.Worker;
@@ -33,6 +34,26 @@ public static class EventMap
                         }
                     }
                 }
+            });
+    }
+
+    public static IEnumerable<GetOccupiedDoctorScheduleSlotResponse> MapOccupiedSlotsToResponse(
+        this IEnumerable<Event> events)
+    {
+        return events.GroupBy(x => x.Worker.Id)
+            .ToDictionary(x => x.Key, x => x.ToList())
+            .Select(x => new GetOccupiedDoctorScheduleSlotResponse()
+            {
+                FilialId = x.Value.FirstOrDefault()?.Worker.Staff.Id.ToString() ?? string.Empty,
+                DoctorId = x.Key.ToString(),
+                Date = DateTime.Now.ToString("yyyy-MM-dd"),
+                Cells = x.Value.Select(y => new Cell
+                    {
+                        TimeStart = y.StartDate.ToString("t"),
+                        TimeEnd = y.StartDate.AddMinutes(y.Duration).ToString("t"),
+                        IsFree = y.Client == null
+                    })
+                    .ToArray()
             });
     }
 

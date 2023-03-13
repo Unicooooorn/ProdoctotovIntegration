@@ -95,11 +95,11 @@ app.ApplyPendingMigrations();
 
 app.UsePathBase(builder.Configuration["PathBase"]);
 
-app.UseRouting();
 app.MapControllers();
 
 app.UseAuthentication()
     .UseAuthorization()
+    .UseRouting()
     .UseEndpoints(endpoints => endpoints.MapControllers());
 
 if (app.Environment.IsDevelopment())
