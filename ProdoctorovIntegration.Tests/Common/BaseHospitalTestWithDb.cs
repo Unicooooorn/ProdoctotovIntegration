@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProdoctorovIntegration.Application.DbContext;
-using ProdoctorovIntegration.Domain.Client;
+using ProdoctorovIntegration.Infrastructure.EntityTypeConfiguration.ClientConfiguration;
 using Xunit;
 
 namespace ProdoctorovIntegration.Tests.Common;
 
+[Collection("db")]
 public class BaseHospitalTestWithDb : IAsyncLifetime
 {
     private readonly HospitalDatabaseFixture _databaseFixture;
@@ -37,6 +38,8 @@ public class BaseHospitalTestWithDb : IAsyncLifetime
         HospitalContext.RemoveRange(await HospitalContext.ClientContact.ToListAsync());
         HospitalContext.RemoveRange(await HospitalContext.Staff.ToListAsync());
         HospitalContext.RemoveRange(await HospitalContext.ContactType.ToListAsync());
+
+        await HospitalContext.SaveChangesAsync();
     }
 
     private HospitalDbContext GetNewContext()
@@ -44,11 +47,11 @@ public class BaseHospitalTestWithDb : IAsyncLifetime
         var dbOptions = new DbContextOptionsBuilder<HospitalDbContext>()
             .UseNpgsql(
                 _databaseFixture.Db.GetConnectionString(),
-                x => x.MigrationsAssembly("MDService.Infrastructure")
+                x => x.MigrationsAssembly("ProdoctorovIntegration.Infrastructure")
                     .MinBatchSize(1)
                     .MaxBatchSize(10000))
             .Options;
 
-        return new HospitalDbContext(dbOptions, new DbContextInitProperties(typeof(ContactTypeInfo).Assembly));
+        return new HospitalDbContext(dbOptions, new DbContextInitProperties(typeof(ContactTypeInfoConfiguration).Assembly));
     }
 }

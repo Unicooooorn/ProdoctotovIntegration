@@ -2,7 +2,7 @@
 
 public class HospitalDatabaseFixture : DatabaseFixture
 {
-    protected HospitalDatabaseFixture() : base("prodoctorov-integration")
+    public HospitalDatabaseFixture() : base("prodoctorov-integration")
     {
     }
 }
