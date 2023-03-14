@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ProdoctorovIntegration.Application.DbContext;
+using System.Text.Json.Serialization;
 
 namespace ProdoctorovIntegration.Application.Command.CancelAppointment;
 
@@ -10,6 +11,7 @@ public class CancelAppointmentCommand : IRequest<CancelAppointmentResponse>
     {
         ClaimId = claimId;
     }
+    [JsonPropertyName("claim_id")]
     public string ClaimId { get; set; }
 }
 

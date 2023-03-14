@@ -25,6 +25,7 @@
     <Folder Include="Command\RecordClient\" />
     <Folder Include="Mapping\" />
     <Folder Include="Options\Authentication\" />
+    <Folder Include="Requests\CheckAppointmentByClaim\" />
     <Folder Include="Requests\Schedule\" />
   </ItemGroup>
 

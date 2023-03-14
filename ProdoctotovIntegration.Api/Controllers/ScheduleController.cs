@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using ProdoctorovIntegration.Application.Command.CancelAppointment;
 using ProdoctorovIntegration.Application.Command.RecordClient;
 using ProdoctorovIntegration.Application.Options.Authentication;
+using ProdoctorovIntegration.Application.Requests.CheckAppointmentByClaim;
 
 namespace ProdoctorovIntegration.Api.Controllers;
 
@@ -27,8 +28,17 @@ public class ScheduleController : ControllerBase
     }
 
     [HttpPost]
+    [ProducesResponseType(typeof(CancelAppointmentResponse), StatusCodes.Status200OK)]
     public async Task<CancelAppointmentResponse> CancelAppointment([FromQuery] CancelAppointmentCommand command)
     {
         return await _mediator.Send(command);
+    }
+
+    [HttpPost]
+    [ProducesResponseType(typeof(CheckAppointmentByClaimResponse), StatusCodes.Status200OK)]
+    public async Task<CheckAppointmentByClaimResponse> CancelAppointment(
+        [FromQuery] CheckAppointmentByClaimRequest request)
+    {
+        return await _mediator.Send(request);
     }
 }
