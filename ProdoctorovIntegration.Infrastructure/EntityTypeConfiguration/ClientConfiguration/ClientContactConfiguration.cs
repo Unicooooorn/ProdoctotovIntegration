@@ -19,14 +19,10 @@ public class ClientContactConfiguration : IEntityTypeConfiguration<ClientContact
         builder.Property(x => x.ContactOnlyDigits)
             .HasColumnName("CONTACT_ONLY_DIGITS");
 
-        builder.HasOne(x => x.ContactInfoType)
-            .WithOne()
-            .HasForeignKey<ContactTypeInfo>(x => x.Id)
-            .HasConstraintName("FK_CLICON_CONTYPEID");
-
         builder.HasOne(x => x.Client)
-            .WithOne()
-            .HasForeignKey<Client>(x => x.Id)
-            .HasConstraintName("FK_CLICON_CLIID");
+            .WithMany()
+            .HasForeignKey(x => x.ClientId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

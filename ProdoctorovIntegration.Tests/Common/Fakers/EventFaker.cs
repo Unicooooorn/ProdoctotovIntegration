@@ -17,7 +17,7 @@ public sealed class EventFaker : Faker<Event>
                 Client = client,
                 IsForProdoctorov = isForProdoctorov ?? true,
                 RoomId = f.Random.Int(0, 10),
-                Worker = worker ?? new WorkerFaker(),
+                Worker = worker ?? new WorkerFaker().Generate(),
                 StartDate = f.Date.Between(DateTime.UtcNow.AddMinutes(-60), DateTime.UtcNow),
                 Duration = 10
             });

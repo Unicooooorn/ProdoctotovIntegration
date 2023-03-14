@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProdoctorovIntegration.Application.Options.Authentication;
 using ProdoctorovIntegration.Application.Requests.OccupiedDoctorScheduleSlot;
 
 namespace ProdoctorovIntegration.Api.Controllers;
@@ -7,7 +9,8 @@ namespace ProdoctorovIntegration.Api.Controllers;
 
 [ApiController]
 [Route("v{version:apiVersion}")]
-public class OccupiedSlotController
+[Authorize(AuthenticationSchemes = ApiKeyAuthenticationOptions.AuthenticationScheme)]
+public class OccupiedSlotController : ControllerBase
 {
     private readonly IMediator _mediator;
 

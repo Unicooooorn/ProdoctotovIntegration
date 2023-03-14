@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <Folder Include="Client\" />
+    <Folder Include="Exception\" />
     <Folder Include="Worker\" />
   </ItemGroup>
 

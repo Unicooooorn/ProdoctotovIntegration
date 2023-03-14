@@ -37,7 +37,6 @@ public class BaseHospitalTestWithDb : IAsyncLifetime
         HospitalContext.RemoveRange(await HospitalContext.Client.ToListAsync());
         HospitalContext.RemoveRange(await HospitalContext.ClientContact.ToListAsync());
         HospitalContext.RemoveRange(await HospitalContext.Staff.ToListAsync());
-        HospitalContext.RemoveRange(await HospitalContext.ContactType.ToListAsync());
 
         await HospitalContext.SaveChangesAsync();
     }
@@ -52,6 +51,6 @@ public class BaseHospitalTestWithDb : IAsyncLifetime
                     .MaxBatchSize(10000))
             .Options;
 
-        return new HospitalDbContext(dbOptions, new DbContextInitProperties(typeof(ContactTypeInfoConfiguration).Assembly));
+        return new HospitalDbContext(dbOptions, new DbContextInitProperties(typeof(ClientConfiguration).Assembly));
     }
 }

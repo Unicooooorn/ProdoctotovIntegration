@@ -12,7 +12,7 @@ using ProdoctorovIntegration.Application.DbContext;
 namespace ProdoctorovIntegration.Infrastructure.Migrations
 {
     [DbContext(typeof(HospitalDbContext))]
-    [Migration("20230313142132_Initial")]
+    [Migration("20230314140003_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -67,40 +67,21 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("ID");
 
+                    b.Property<Guid?>("ClientId")
+                        .HasColumnType("uuid");
+
                     b.Property<long>("ContactOnlyDigits")
                         .HasColumnType("bigint")
                         .HasColumnName("CONTACT_ONLY_DIGITS");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClientId");
+
                     b.HasIndex(new[] { "Id" }, "IDX_CLIENT_CONTACT_ID")
                         .IsUnique();
 
                     b.ToTable("CLIENT_CONTACT", "HOSPITAL");
-                });
-
-            modelBuilder.Entity("ProdoctorovIntegration.Domain.Client.ContactTypeInfo", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("ID");
-
-                    b.Property<long>("Code")
-                        .HasColumnType("bigint")
-                        .HasColumnName("CODE");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("NAME");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex(new[] { "Id" }, "IDX_CONTACT_TYPE_INFO")
-                        .IsUnique();
-
-                    b.ToTable("CONTACT_TYPE", "HOSPITAL");
                 });
 
             modelBuilder.Entity("ProdoctorovIntegration.Domain.Event", b =>
@@ -119,12 +100,12 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("CLIENT_DATA");
 
+                    b.Property<Guid?>("ClientId")
+                        .HasColumnType("uuid");
+
                     b.Property<long>("Duration")
                         .HasColumnType("bigint")
                         .HasColumnName("DURATION");
-
-                    b.Property<Guid?>("InsertUserId")
-                        .HasColumnType("uuid");
 
                     b.Property<bool>("IsForProdoctorov")
                         .HasColumnType("boolean")
@@ -143,14 +124,9 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("START_DATE");
 
-                    b.Property<Guid>("WorkerId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("InsertUserId");
-
-                    b.HasIndex("WorkerId");
+                    b.HasIndex("ClientId");
 
                     b.HasIndex(new[] { "ClaimId" }, "IDX_EVENT_CLAIM_ID");
 
@@ -215,45 +191,23 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                     b.ToTable("WORKER", "HOSPITAL");
                 });
 
-            modelBuilder.Entity("ProdoctorovIntegration.Domain.Client.Client", b =>
+            modelBuilder.Entity("ProdoctorovIntegration.Domain.Client.ClientContact", b =>
                 {
-                    b.HasOne("ProdoctorovIntegration.Domain.Client.ClientContact", null)
-                        .WithOne("Client")
-                        .HasForeignKey("ProdoctorovIntegration.Domain.Client.Client", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("ProdoctorovIntegration.Domain.Client.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ProdoctorovIntegration.Domain.Event", null)
-                        .WithOne("Client")
-                        .HasForeignKey("ProdoctorovIntegration.Domain.Client.Client", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ProdoctorovIntegration.Domain.Client.ContactTypeInfo", b =>
-                {
-                    b.HasOne("ProdoctorovIntegration.Domain.Client.ClientContact", null)
-                        .WithOne("ContactInfoType")
-                        .HasForeignKey("ProdoctorovIntegration.Domain.Client.ContactTypeInfo", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("ProdoctorovIntegration.Domain.Event", b =>
                 {
-                    b.HasOne("ProdoctorovIntegration.Domain.Worker.Worker", "InsertUser")
+                    b.HasOne("ProdoctorovIntegration.Domain.Client.Client", "Client")
                         .WithMany()
-                        .HasForeignKey("InsertUserId");
+                        .HasForeignKey("ClientId");
 
-                    b.HasOne("ProdoctorovIntegration.Domain.Worker.Worker", "Worker")
-                        .WithMany()
-                        .HasForeignKey("WorkerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("InsertUser");
-
-                    b.Navigation("Worker");
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("ProdoctorovIntegration.Domain.Worker.Staff", b =>
@@ -262,32 +216,23 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                         .WithOne("Staff")
                         .HasForeignKey("ProdoctorovIntegration.Domain.Worker.Staff", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_WORKER_STAFF_ID");
                 });
 
             modelBuilder.Entity("ProdoctorovIntegration.Domain.Worker.Worker", b =>
                 {
                     b.HasOne("ProdoctorovIntegration.Domain.Event", null)
-                        .WithOne("UpdateUser")
+                        .WithOne("Worker")
                         .HasForeignKey("ProdoctorovIntegration.Domain.Worker.Worker", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ProdoctorovIntegration.Domain.Client.ClientContact", b =>
-                {
-                    b.Navigation("Client")
-                        .IsRequired();
-
-                    b.Navigation("ContactInfoType")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_EVENT_WORKER_ID");
                 });
 
             modelBuilder.Entity("ProdoctorovIntegration.Domain.Event", b =>
                 {
-                    b.Navigation("Client");
-
-                    b.Navigation("UpdateUser")
+                    b.Navigation("Worker")
                         .IsRequired();
                 });
 

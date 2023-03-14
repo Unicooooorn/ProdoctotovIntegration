@@ -21,7 +21,7 @@ namespace ProdoctorovIntegration.Infrastructure.Configuration
             string dbConnectionString)
         {
             services
-                .AddSingleton(new DbContextInitProperties(typeof(ContactTypeInfoConfiguration).Assembly))
+                .AddSingleton(new DbContextInitProperties(typeof(ClientConfiguration).Assembly))
                 .AddDbContext<HospitalDbContext>(
                     options => options.UseNpgsql(
                         dbConnectionString,

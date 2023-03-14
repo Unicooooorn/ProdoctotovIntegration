@@ -14,9 +14,7 @@ public class HospitalDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
         _initProperties = initProperties;
     }
-
-    public DbSet<ContactTypeInfo> Type => Set<ContactTypeInfo>();
-
+    
     public DbSet<Client> Client => Set<Client>();
 
     public DbSet<ClientContact> ClientContact => Set<ClientContact>();
@@ -26,8 +24,6 @@ public class HospitalDbContext : Microsoft.EntityFrameworkCore.DbContext
     public DbSet<Worker> Worker => Set<Worker>();
 
     public DbSet<Event> Event => Set<Event>();
-
-    public DbSet<ContactTypeInfo> ContactType => Set<ContactTypeInfo>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

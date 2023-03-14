@@ -15,40 +15,6 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                 name: "HOSPITAL");
 
             migrationBuilder.CreateTable(
-                name: "CLIENT_CONTACT",
-                schema: "HOSPITAL",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false),
-                    CONTACT_ONLY_DIGITS = table.Column<long>(type: "bigint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CLIENT_CONTACT", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CONTACT_TYPE",
-                schema: "HOSPITAL",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false),
-                    CODE = table.Column<long>(type: "bigint", nullable: false),
-                    NAME = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CONTACT_TYPE", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_CONTACT_TYPE_CLIENT_CONTACT_ID",
-                        column: x => x.ID,
-                        principalSchema: "HOSPITAL",
-                        principalTable: "CLIENT_CONTACT",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "CLIENT",
                 schema: "HOSPITAL",
                 columns: table => new
@@ -62,11 +28,25 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CLIENT", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CLIENT_CONTACT",
+                schema: "HOSPITAL",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uuid", nullable: false),
+                    ClientId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CONTACT_ONLY_DIGITS = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CLIENT_CONTACT", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_CLIENT_CLIENT_CONTACT_ID",
-                        column: x => x.ID,
+                        name: "FK_CLIENT_CONTACT_CLIENT_ClientId",
+                        column: x => x.ClientId,
                         principalSchema: "HOSPITAL",
-                        principalTable: "CLIENT_CONTACT",
+                        principalTable: "CLIENT",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -79,17 +59,22 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                     ID = table.Column<Guid>(type: "uuid", nullable: false),
                     START_DATE = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     DURATION = table.Column<long>(type: "bigint", nullable: false),
-                    WorkerId = table.Column<Guid>(type: "uuid", nullable: false),
                     ROOM_ID = table.Column<long>(type: "bigint", nullable: false),
+                    ClientId = table.Column<Guid>(type: "uuid", nullable: true),
                     CLIENT_DATA = table.Column<string>(type: "text", nullable: false),
                     NOTE = table.Column<string>(type: "text", nullable: false),
                     IS_FOR_PRODOCTOROV = table.Column<bool>(type: "boolean", nullable: false),
-                    CLAIM_ID = table.Column<Guid>(type: "uuid", nullable: true),
-                    InsertUserId = table.Column<Guid>(type: "uuid", nullable: true)
+                    CLAIM_ID = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_EVENT", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_EVENT_CLIENT_ClientId",
+                        column: x => x.ClientId,
+                        principalSchema: "HOSPITAL",
+                        principalTable: "CLIENT",
+                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
@@ -106,7 +91,7 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_WORKER", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_WORKER_EVENT_ID",
+                        name: "FK_EVENT_WORKER_ID",
                         column: x => x.ID,
                         principalSchema: "HOSPITAL",
                         principalTable: "EVENT",
@@ -127,7 +112,7 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_STAFF", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_STAFF_WORKER_ID",
+                        name: "FK_WORKER_STAFF_ID",
                         column: x => x.ID,
                         principalSchema: "HOSPITAL",
                         principalTable: "WORKER",
@@ -150,11 +135,10 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IDX_CONTACT_TYPE_INFO",
+                name: "IX_CLIENT_CONTACT_ClientId",
                 schema: "HOSPITAL",
-                table: "CONTACT_TYPE",
-                column: "ID",
-                unique: true);
+                table: "CLIENT_CONTACT",
+                column: "ClientId");
 
             migrationBuilder.CreateIndex(
                 name: "IDX_EVENT_CLAIM_ID",
@@ -170,16 +154,10 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_EVENT_InsertUserId",
+                name: "IX_EVENT_ClientId",
                 schema: "HOSPITAL",
                 table: "EVENT",
-                column: "InsertUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EVENT_WorkerId",
-                schema: "HOSPITAL",
-                table: "EVENT",
-                column: "WorkerId");
+                column: "ClientId");
 
             migrationBuilder.CreateIndex(
                 name: "IDX_STAFF_ID",
@@ -194,51 +172,13 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                 table: "WORKER",
                 column: "ID",
                 unique: true);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_CLIENT_EVENT_ID",
-                schema: "HOSPITAL",
-                table: "CLIENT",
-                column: "ID",
-                principalSchema: "HOSPITAL",
-                principalTable: "EVENT",
-                principalColumn: "ID",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_EVENT_WORKER_InsertUserId",
-                schema: "HOSPITAL",
-                table: "EVENT",
-                column: "InsertUserId",
-                principalSchema: "HOSPITAL",
-                principalTable: "WORKER",
-                principalColumn: "ID");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_EVENT_WORKER_WorkerId",
-                schema: "HOSPITAL",
-                table: "EVENT",
-                column: "WorkerId",
-                principalSchema: "HOSPITAL",
-                principalTable: "WORKER",
-                principalColumn: "ID",
-                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_WORKER_EVENT_ID",
-                schema: "HOSPITAL",
-                table: "WORKER");
-
             migrationBuilder.DropTable(
-                name: "CLIENT",
-                schema: "HOSPITAL");
-
-            migrationBuilder.DropTable(
-                name: "CONTACT_TYPE",
+                name: "CLIENT_CONTACT",
                 schema: "HOSPITAL");
 
             migrationBuilder.DropTable(
@@ -246,7 +186,7 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                 schema: "HOSPITAL");
 
             migrationBuilder.DropTable(
-                name: "CLIENT_CONTACT",
+                name: "WORKER",
                 schema: "HOSPITAL");
 
             migrationBuilder.DropTable(
@@ -254,7 +194,7 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                 schema: "HOSPITAL");
 
             migrationBuilder.DropTable(
-                name: "WORKER",
+                name: "CLIENT",
                 schema: "HOSPITAL");
         }
     }

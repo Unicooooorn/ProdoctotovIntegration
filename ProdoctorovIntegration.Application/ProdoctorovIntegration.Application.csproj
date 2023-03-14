@@ -21,6 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Command\CreateClient\" />
+    <Folder Include="Command\RecordClient\" />
     <Folder Include="Mapping\" />
     <Folder Include="Options\Authentication\" />
     <Folder Include="Requests\Schedule\" />

@@ -20,8 +20,9 @@ public class EventConfiguration : IEntityTypeConfiguration<Event>
             .IsUnique();
 
         builder.HasOne(x => x.Client)
-            .WithOne()
-            .HasForeignKey<Client>(x => x.Id);
+            .WithMany()
+            .HasForeignKey(x => x.ClientId)
+            .IsRequired(false);
 
         builder.Property(x => x.ClaimId)
             .HasColumnName("CLAIM_ID");
