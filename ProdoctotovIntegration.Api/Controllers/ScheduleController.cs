@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProdoctorovIntegration.Application.Command.CancelAppointment;
 using ProdoctorovIntegration.Application.Command.RecordClient;
 using ProdoctorovIntegration.Application.Options.Authentication;
 
@@ -21,6 +22,12 @@ public class ScheduleController : ControllerBase
     [HttpPost("record_client")]
     [ProducesResponseType(typeof(RecordClientResponse), StatusCodes.Status200OK)]
     public async Task<RecordClientResponse> RecordClient([FromQuery] RecordClientCommand command)
+    {
+        return await _mediator.Send(command);
+    }
+
+    [HttpPost]
+    public async Task<CancelAppointmentResponse> CancelAppointment([FromQuery] CancelAppointmentCommand command)
     {
         return await _mediator.Send(command);
     }
