@@ -31,6 +31,21 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "WORKER",
+                schema: "HOSPITAL",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uuid", nullable: false),
+                    FIRST_NAME = table.Column<string>(type: "text", nullable: false),
+                    PATR_NAME = table.Column<string>(type: "text", nullable: false),
+                    LAST_NAME = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WORKER", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CLIENT_CONTACT",
                 schema: "HOSPITAL",
                 columns: table => new
@@ -59,6 +74,7 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                     ID = table.Column<Guid>(type: "uuid", nullable: false),
                     START_DATE = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     DURATION = table.Column<long>(type: "bigint", nullable: false),
+                    WorkerId = table.Column<Guid>(type: "uuid", nullable: true),
                     ROOM_ID = table.Column<long>(type: "bigint", nullable: false),
                     ClientId = table.Column<Guid>(type: "uuid", nullable: true),
                     CLIENT_DATA = table.Column<string>(type: "text", nullable: false),
@@ -75,26 +91,11 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                         principalSchema: "HOSPITAL",
                         principalTable: "CLIENT",
                         principalColumn: "ID");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "WORKER",
-                schema: "HOSPITAL",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(type: "uuid", nullable: false),
-                    FIRST_NAME = table.Column<string>(type: "text", nullable: false),
-                    PATR_NAME = table.Column<string>(type: "text", nullable: false),
-                    LAST_NAME = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_WORKER", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_EVENT_WORKER_ID",
-                        column: x => x.ID,
+                        name: "FK_EVENT_WORKER_WorkerId",
+                        column: x => x.WorkerId,
                         principalSchema: "HOSPITAL",
-                        principalTable: "EVENT",
+                        principalTable: "WORKER",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -160,6 +161,12 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                 column: "ClientId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_EVENT_WorkerId",
+                schema: "HOSPITAL",
+                table: "EVENT",
+                column: "WorkerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IDX_STAFF_ID",
                 schema: "HOSPITAL",
                 table: "STAFF",
@@ -182,19 +189,19 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                 schema: "HOSPITAL");
 
             migrationBuilder.DropTable(
-                name: "STAFF",
-                schema: "HOSPITAL");
-
-            migrationBuilder.DropTable(
-                name: "WORKER",
-                schema: "HOSPITAL");
-
-            migrationBuilder.DropTable(
                 name: "EVENT",
                 schema: "HOSPITAL");
 
             migrationBuilder.DropTable(
+                name: "STAFF",
+                schema: "HOSPITAL");
+
+            migrationBuilder.DropTable(
                 name: "CLIENT",
+                schema: "HOSPITAL");
+
+            migrationBuilder.DropTable(
+                name: "WORKER",
                 schema: "HOSPITAL");
         }
     }

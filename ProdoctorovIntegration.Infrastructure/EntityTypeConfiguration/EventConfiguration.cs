@@ -29,9 +29,10 @@ public class EventConfiguration : IEntityTypeConfiguration<Event>
         builder.HasIndex(x => x.ClaimId, "IDX_EVENT_CLAIM_ID");
 
         builder.HasOne(x => x.Worker)
-            .WithOne()
-            .HasForeignKey<Worker>(x => x.Id)
-            .HasConstraintName("FK_EVENT_WORKER_ID");
+            .WithMany()
+            .HasForeignKey(x => x.WorkerId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(x => x.ClientData)
             .HasColumnName("CLIENT_DATA");

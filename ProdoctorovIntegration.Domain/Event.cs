@@ -5,6 +5,7 @@ public class Event
     public Guid Id { get; set; }
     public DateTime StartDate { get; set; }
     public long Duration { get; set; }
+    public Guid? WorkerId { get; set; }
     public Worker.Worker Worker { get; set; } = new();
     public long RoomId { get; set; }
     public Guid? ClientId { get; set; }

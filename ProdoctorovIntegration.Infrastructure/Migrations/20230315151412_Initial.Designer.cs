@@ -12,7 +12,7 @@ using ProdoctorovIntegration.Application.DbContext;
 namespace ProdoctorovIntegration.Infrastructure.Migrations
 {
     [DbContext(typeof(HospitalDbContext))]
-    [Migration("20230314140003_Initial")]
+    [Migration("20230315151412_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -124,9 +124,14 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("START_DATE");
 
+                    b.Property<Guid?>("WorkerId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
+
+                    b.HasIndex("WorkerId");
 
                     b.HasIndex(new[] { "ClaimId" }, "IDX_EVENT_CLAIM_ID");
 
@@ -207,7 +212,14 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("ClientId");
 
+                    b.HasOne("ProdoctorovIntegration.Domain.Worker.Worker", "Worker")
+                        .WithMany()
+                        .HasForeignKey("WorkerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.Navigation("Client");
+
+                    b.Navigation("Worker");
                 });
 
             modelBuilder.Entity("ProdoctorovIntegration.Domain.Worker.Staff", b =>
@@ -218,22 +230,6 @@ namespace ProdoctorovIntegration.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_WORKER_STAFF_ID");
-                });
-
-            modelBuilder.Entity("ProdoctorovIntegration.Domain.Worker.Worker", b =>
-                {
-                    b.HasOne("ProdoctorovIntegration.Domain.Event", null)
-                        .WithOne("Worker")
-                        .HasForeignKey("ProdoctorovIntegration.Domain.Worker.Worker", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_EVENT_WORKER_ID");
-                });
-
-            modelBuilder.Entity("ProdoctorovIntegration.Domain.Event", b =>
-                {
-                    b.Navigation("Worker")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("ProdoctorovIntegration.Domain.Worker.Worker", b =>
