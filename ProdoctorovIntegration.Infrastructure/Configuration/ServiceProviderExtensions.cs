@@ -2,7 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ProdoctorovIntegration.Application.DbContext;
+using ProdoctorovIntegration.Application.Services;
 using ProdoctorovIntegration.Infrastructure.EntityTypeConfiguration.ClientConfiguration;
+using ProdoctorovIntegration.Infrastructure.Services;
 
 namespace ProdoctorovIntegration.Infrastructure.Configuration
 {
@@ -26,6 +28,11 @@ namespace ProdoctorovIntegration.Infrastructure.Configuration
                     options => options.UseNpgsql(
                         dbConnectionString,
                         x => x.MigrationsAssembly("ProdoctorovIntegration.Infrastructure")));
+        }
+
+        public static void AddServices(this IServiceCollection service)
+        {
+            service.AddSingleton<ISendScheduleService, SendScheduleService>();
         }
     }
 }

@@ -80,7 +80,7 @@ public class SendScheduleServiceTests : BaseHospitalTestWithDb
         await HospitalContext.SaveChangesAsync();
         var body = await _mediator.Object.Send(new GetOccupiedDoctorScheduleSlotRequest());
         //Act
-        var result = await Sut().OccupiedSlots(body, CancellationToken.None);
+        var result = await Sut().SendOccupiedSlotsAsync(body, CancellationToken.None);
         //Assert
         result.Should().Be(Unit.Value);
     }

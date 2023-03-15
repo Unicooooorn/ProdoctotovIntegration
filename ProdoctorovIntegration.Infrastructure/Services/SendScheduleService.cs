@@ -58,7 +58,7 @@ public class SendScheduleService : ISendScheduleService
         return Unit.Value;
     }
 
-    public async Task<Unit> OccupiedSlotsAsync(IReadOnlyCollection<GetOccupiedDoctorScheduleSlotResponse> events, CancellationToken cancellationToken)
+    public async Task<Unit> SendOccupiedSlotsAsync(IReadOnlyCollection<GetOccupiedDoctorScheduleSlotResponse> events, CancellationToken cancellationToken)
     {
         using var client = _httpClientFactory.CreateClient();
         client.DefaultRequestHeaders.Add("Authorization", _authenticationOptions.Token);

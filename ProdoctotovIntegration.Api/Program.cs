@@ -89,6 +89,7 @@ builder.Services.AddSwaggerGen(opt =>
     });
 });
 
+builder.Services.AddServices();
 builder.Services.AddControllers();
 builder.Services.AddApiVersioning();
 
