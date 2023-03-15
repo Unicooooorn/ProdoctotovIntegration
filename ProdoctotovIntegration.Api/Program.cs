@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.OpenApi.Models;
 using ProdoctorovIntegration.Application.Authentication;
+using ProdoctorovIntegration.Application.Options;
 using ProdoctorovIntegration.Application.Options.Authentication;
 using ProdoctorovIntegration.Application.Requests.Schedule;
 using ProdoctorovIntegration.Infrastructure.Configuration;
@@ -23,11 +24,16 @@ var authenticationOptions =
     builder.Configuration.GetSection(AuthenticationOptions.Position).Get<AuthenticationOptions>() ??
     throw new Exception("Failed to find Authentication options");
 
+var jobsOption = builder.Configuration.GetSection(JobsOptions.Position).Get<JobsOptions>() ??
+                 throw new Exception("Failed to find Jobs options");
+
 builder.Services.AddOptions()
     .Configure<AuthenticationOptions>(o => o.Token = authenticationOptions.Token)
     .AddAuthentication(ApiKeyAuthenticationOptions.AuthenticationScheme)
     .AddScheme<ApiKeyAuthenticationOptions, ApiKeyAuthenticationHandler>(
         ApiKeyAuthenticationOptions.AuthenticationScheme, _ => {});
+
+builder.Services.Configure<ConnectionOptions>(o => builder.Configuration.GetSection(ConnectionOptions.Position));
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(GetScheduleRequest))!));
 
@@ -108,5 +114,5 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
+await SendScheduleJobsStartup.RunAsync(app.Services, jobsOption.HoursInterval);
 await app.RunAsync();

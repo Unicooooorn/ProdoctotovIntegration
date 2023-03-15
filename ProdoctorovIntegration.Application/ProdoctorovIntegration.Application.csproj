@@ -24,6 +24,7 @@
     <Folder Include="Command\CreateClient\" />
     <Folder Include="Command\RecordClient\" />
     <Folder Include="Mapping\" />
+    <Folder Include="Services\" />
     <Folder Include="Options\Authentication\" />
     <Folder Include="Requests\CheckAppointmentByClaim\" />
     <Folder Include="Requests\Schedule\" />

@@ -43,7 +43,7 @@ public class ScheduleController : ControllerBase
         return await _mediator.Send(request);
     }
 
-    [HttpPost]
+    [HttpPost("refresh_appointment")]
     [ProducesResponseType(typeof(RefreshAppointmentResponse), StatusCodes.Status200OK)]
     public async Task<RefreshAppointmentResponse> RefreshAppointment([FromQuery] RefreshAppointmentCommand command)
     {
