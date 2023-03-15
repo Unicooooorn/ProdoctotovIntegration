@@ -23,21 +23,21 @@ public class ScheduleController : ControllerBase
 
     [HttpPost("record_client")]
     [ProducesResponseType(typeof(RecordClientResponse), StatusCodes.Status200OK)]
-    public async Task<RecordClientResponse> RecordClient([FromQuery] RecordClientCommand command)
+    public async Task<RecordClientResponse> RecordClientAsync([FromQuery] RecordClientCommand command)
     {
         return await _mediator.Send(command);
     }
 
     [HttpPost("cancel_appointment")]
     [ProducesResponseType(typeof(CancelAppointmentResponse), StatusCodes.Status200OK)]
-    public async Task<CancelAppointmentResponse> CancelAppointment([FromQuery] CancelAppointmentCommand command)
+    public async Task<CancelAppointmentResponse> CancelAppointmentAsync([FromQuery] CancelAppointmentCommand command)
     {
         return await _mediator.Send(command);
     }
 
     [HttpPost("check_appointment")]
     [ProducesResponseType(typeof(CheckAppointmentByClaimResponse), StatusCodes.Status200OK)]
-    public async Task<CheckAppointmentByClaimResponse> CheckAppointment(
+    public async Task<CheckAppointmentByClaimResponse> CheckAppointmentAsync(
         [FromQuery] CheckAppointmentByClaimRequest request)
     {
         return await _mediator.Send(request);
@@ -45,7 +45,7 @@ public class ScheduleController : ControllerBase
 
     [HttpPost("refresh_appointment")]
     [ProducesResponseType(typeof(RefreshAppointmentResponse), StatusCodes.Status200OK)]
-    public async Task<RefreshAppointmentResponse> RefreshAppointment([FromQuery] RefreshAppointmentCommand command)
+    public async Task<RefreshAppointmentResponse> RefreshAppointmentAsync([FromQuery] RefreshAppointmentCommand command)
     {
         return await _mediator.Send(command);
     }

@@ -1,4 +1,3 @@
-using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.OpenApi.Models;
@@ -8,6 +7,7 @@ using ProdoctorovIntegration.Application.Options.Authentication;
 using ProdoctorovIntegration.Application.Requests.Schedule;
 using ProdoctorovIntegration.Infrastructure.Configuration;
 using Serilog;
+using System.Reflection;
 
 var logger = new LoggerConfiguration().CreateLogger();
 Log.Logger = logger;
