@@ -24,4 +24,4 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Codecov
-      uses: codecov/codecov-action@v2.0.1
+      uses: codecov/codecov-action@v3
