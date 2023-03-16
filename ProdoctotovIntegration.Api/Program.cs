@@ -9,7 +9,7 @@ using ProdoctorovIntegration.Infrastructure.Configuration;
 using Serilog;
 using System.Reflection;
 
-var logger = new LoggerConfiguration().CreateLogger();
+var logger = LoggingConfiguration.GetLogger();
 Log.Logger = logger;
 
 var builder = WebApplication.CreateBuilder(args);
