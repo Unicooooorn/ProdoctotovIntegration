@@ -1,9 +1,9 @@
-﻿using System.Security.Claims;
-using System.Text.Encodings.Web;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ProdoctorovIntegration.Application.Options.Authentication;
+using System.Security.Claims;
+using System.Text.Encodings.Web;
 using AuthenticationOptions = ProdoctorovIntegration.Application.Options.Authentication.AuthenticationOptions;
 
 namespace ProdoctorovIntegration.Application.Authentication;
@@ -39,4 +39,3 @@ public class ApiKeyAuthenticationHandler : AuthenticationHandler<ApiKeyAuthentic
         return await Task.FromResult(AuthenticateResult.Success(ticket));
     }
 }
-

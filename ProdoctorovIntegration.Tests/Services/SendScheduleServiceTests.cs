@@ -108,6 +108,4 @@ public class SendScheduleServiceTests : BaseHospitalTestWithDb
 
         return httpClientFactory;
     }
-
-    
 }

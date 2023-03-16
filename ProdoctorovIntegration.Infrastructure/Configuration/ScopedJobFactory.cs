@@ -33,8 +33,7 @@ public class ScopedJobFactory : IJobFactory
     {
         (job as IDisposable)?.Dispose();
     }
-
-
+    
     private class ScopedJob : IJob,
         IDisposable
     {
@@ -50,7 +49,6 @@ public class ScopedJobFactory : IJobFactory
         }
 
         public Task Execute(IJobExecutionContext context) => _innerJob.Execute(context);
-
 
         public void Dispose()
         {

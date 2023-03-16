@@ -7,8 +7,6 @@ using ProdoctorovIntegration.Infrastructure.Jobs;
 using ProdoctorovIntegration.Tests.Common.Fakers;
 using Quartz;
 using Xunit;
-using Xunit.Sdk;
-using Exception = System.Exception;
 
 namespace ProdoctorovIntegration.Tests.Job;
 

@@ -24,7 +24,6 @@ public class GetClientByPhoneOrCreateRequestTests : BaseHospitalTestWithDb
         return new GetClientByPhoneOrCreateRequestHandler(HospitalContext, _mediator.Object);
     }
 
-
     [Fact]
     public async Task ReturnClientGuid_WhenFoundByPhone()
     {

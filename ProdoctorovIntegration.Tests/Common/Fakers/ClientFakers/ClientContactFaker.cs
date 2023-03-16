@@ -14,6 +14,5 @@ public sealed class ClientContactFaker : Faker<ClientContact>
                 Client = client ?? new ClientFaker(),
                 ContactOnlyDigits = phoneNumber ?? f.Random.Long(9000000000, 9999999999)
             });
-
     }
 }
