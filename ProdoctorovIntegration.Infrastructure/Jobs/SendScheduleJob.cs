@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using ProdoctorovIntegration.Application.Requests.Schedule;
 using ProdoctorovIntegration.Application.Services;
 using Quartz;
@@ -9,15 +8,15 @@ namespace ProdoctorovIntegration.Infrastructure.Jobs;
 [DisallowConcurrentExecution]
 public class SendScheduleJob : IJob
 {
-    private readonly IMediator _mediator;
     private readonly ISendScheduleService _sendScheduleService;
     private readonly ILogger<SendScheduleJob> _logger;
+    private readonly IScopedRequestExecutor _scopedRequestExecutor;
 
-    public SendScheduleJob(IMediator mediator, ISendScheduleService sendScheduleService, ILogger<SendScheduleJob> logger)
+    public SendScheduleJob(ISendScheduleService sendScheduleService, ILogger<SendScheduleJob> logger, IScopedRequestExecutor scopedRequestExecutor)
     {
-        _mediator = mediator;
         _sendScheduleService = sendScheduleService;
         _logger = logger;
+        _scopedRequestExecutor = scopedRequestExecutor;
     }
 
     public async Task Execute(IJobExecutionContext context)
@@ -25,7 +24,7 @@ public class SendScheduleJob : IJob
         _logger.LogInformation("Job {JobName} has started", nameof(SendScheduleJob));
         try
         {
-            var events = await _mediator.Send(new GetScheduleRequest());
+            var events = await _scopedRequestExecutor.Execute(new GetScheduleRequest());
             await _sendScheduleService.SendScheduleAsync(events, new CancellationToken());
         }
         catch (Exception ex)

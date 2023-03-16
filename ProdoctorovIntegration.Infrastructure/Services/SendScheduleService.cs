@@ -40,20 +40,22 @@ public class SendScheduleService : ISendScheduleService
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
 
-        var content = JsonContent.Create(
-            events,
-            typeof(GetScheduleResponse[]),
-            new MediaTypeHeaderValue("application/json"),
-            jsonSerializeOptions);
+        foreach (var cell in events)
+        {
+            var content = JsonContent.Create(
+                cell,
+                typeof(GetScheduleResponse),
+                new MediaTypeHeaderValue("application/json"),
+                jsonSerializeOptions);
 
-        var uri = $"{ServiceUrl}/{_connectionOptions.SendSchedule}";
+            var uri = $"{ServiceUrl}/{_connectionOptions.SendSchedule}";
 
-        _logger.LogInformation("{Method} request to: {Request}", HttpMethod.Post.Method, uri);
+            _logger.LogInformation("{Method} request to: {Request}", HttpMethod.Post.Method, uri);
 
-        var response = await client.PostAsync(uri, content, cancellationToken);
+            var response = await client.PostAsync(uri, content, cancellationToken);
 
-        if (!response.IsSuccessStatusCode)
-            throw new HttpRequestException("Send schedule failed");
+            response.EnsureSuccessStatusCode();
+        }
 
         return Unit.Value;
     }
@@ -69,20 +71,22 @@ public class SendScheduleService : ISendScheduleService
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
 
-        var content = JsonContent.Create(
-            events,
-            typeof(GetOccupiedDoctorScheduleSlotResponse[]),
-            new MediaTypeHeaderValue("application/json"),
-            jsonSerializeOptions);
+        foreach (var cell in events)
+        {
+            var content = JsonContent.Create(
+                cell,
+                typeof(GetOccupiedDoctorScheduleSlotResponse),
+                new MediaTypeHeaderValue("application/json"),
+                jsonSerializeOptions);
 
-        var uri = $"{ServiceUrl}/{_connectionOptions.OccupiedSchedule}";
+            var uri = $"{ServiceUrl}/{_connectionOptions.OccupiedSchedule}";
 
-        _logger.LogInformation("{Method} request to: {Request}", HttpMethod.Post.Method, uri);
+            _logger.LogInformation("{Method} request to: {Request}", HttpMethod.Post.Method, uri);
 
-        var response = await client.PostAsync(uri, content, cancellationToken);
+            var response = await client.PostAsync(uri, content, cancellationToken);
 
-        if (!response.IsSuccessStatusCode)
-            throw new HttpRequestException("Send occupied slots failed");
+            response.EnsureSuccessStatusCode();
+        }
 
         return Unit.Value;
     }

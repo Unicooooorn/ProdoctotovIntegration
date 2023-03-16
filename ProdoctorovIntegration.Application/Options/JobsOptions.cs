@@ -4,5 +4,5 @@ public class JobsOptions
 {
     public const string Position = "JobOptions";
 
-    public int HoursInterval { get; set; }
+    public int MinuteInterval { get; set; }
 }

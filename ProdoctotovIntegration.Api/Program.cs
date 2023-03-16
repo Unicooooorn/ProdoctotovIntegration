@@ -89,9 +89,9 @@ builder.Services.AddSwaggerGen(opt =>
     });
 });
 
-builder.Services.AddServices();
 builder.Services.AddControllers();
 builder.Services.AddApiVersioning();
+builder.Services.AddServices();
 
 var app = builder.Build();
 
@@ -115,5 +115,5 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-await SendScheduleJobsStartup.RunAsync(app.Services, jobsOption.HoursInterval);
+await SendScheduleJobsStartup.RunAsync(app.Services, jobsOption.MinuteInterval);
 await app.RunAsync();

@@ -6,22 +6,22 @@ namespace ProdoctorovIntegration.Infrastructure.Configuration;
 
 public static class SendScheduleJobsStartup
 {
-    public static async Task RunAsync(IServiceProvider service, int hoursInterval)
+    public static async Task RunAsync(IServiceProvider service, int minuteInterval)
     {
         var factory = new StdSchedulerFactory();
         var scheduler = await factory.GetScheduler();
         scheduler.JobFactory = new ScopedJobFactory(service);
         await scheduler.Start();
 
-        await SendScheduleJob(scheduler, hoursInterval);
+        await SendScheduleJob(scheduler, minuteInterval);
     }
 
-    private static async Task SendScheduleJob(IScheduler scheduler, int hoursInterval)
+    private static async Task SendScheduleJob(IScheduler scheduler, int minuteInterval)
     {
         var job = JobBuilder.Create<SendScheduleJob>().Build();
         var trigger = TriggerBuilder.Create()
-            .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(0, 0))
-            .WithSimpleSchedule(x => x.WithIntervalInHours(hoursInterval)
+            .StartNow()
+            .WithSimpleSchedule(x => x.WithIntervalInMinutes(minuteInterval)
                 .RepeatForever())
             .Build();
         await scheduler.ScheduleJob(job, trigger);

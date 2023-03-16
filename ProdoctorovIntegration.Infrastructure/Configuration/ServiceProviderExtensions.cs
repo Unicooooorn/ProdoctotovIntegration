@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ProdoctorovIntegration.Application.DbContext;
 using ProdoctorovIntegration.Application.Services;
 using ProdoctorovIntegration.Infrastructure.EntityTypeConfiguration.ClientConfiguration;
+using ProdoctorovIntegration.Infrastructure.Jobs;
 using ProdoctorovIntegration.Infrastructure.Services;
 
 namespace ProdoctorovIntegration.Infrastructure.Configuration
@@ -32,7 +33,10 @@ namespace ProdoctorovIntegration.Infrastructure.Configuration
 
         public static void AddServices(this IServiceCollection service)
         {
+            service.AddHttpClient();
             service.AddSingleton<ISendScheduleService, SendScheduleService>();
+            service.AddSingleton<SendScheduleJob>();
+            service.AddSingleton<IScopedRequestExecutor, ScopedRequestExecutor>();
         }
     }
 }
