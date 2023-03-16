@@ -12,6 +12,8 @@ using ProdoctorovIntegration.Infrastructure.Services;
 using ProdoctorovIntegration.Tests.Common;
 using ProdoctorovIntegration.Tests.Common.Fakers;
 using System.Net;
+using ProdoctorovIntegration.Application.Mapping;
+using ProdoctorovIntegration.Domain;
 using Xunit;
 
 namespace ProdoctorovIntegration.Tests.Services;
@@ -62,8 +64,9 @@ public class SendScheduleServiceTests : BaseHospitalTestWithDb
     {
         //Arrange
         var cell = new EventFaker().Generate();
-        await HospitalContext.AddAsync(cell);
-        await HospitalContext.SaveChangesAsync();
+        var cells = new[] { cell };
+        _mediator.Setup(x => x.Send(It.IsAny<GetScheduleRequest>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(cells.MapToResponse().ToList().AsReadOnly);
         var body = await _mediator.Object.Send(new GetScheduleRequest());
         //Act
         var result = await Sut().SendScheduleAsync(body, CancellationToken.None);
@@ -76,8 +79,9 @@ public class SendScheduleServiceTests : BaseHospitalTestWithDb
     {
         //Arrange
         var cell = new EventFaker().Generate();
-        await HospitalContext.AddAsync(cell);
-        await HospitalContext.SaveChangesAsync();
+        var cells = new []{ cell };
+        _mediator.Setup(x => x.Send(It.IsAny<GetOccupiedDoctorScheduleSlotRequest>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(cells.MapOccupiedSlotsToResponse().ToList().AsReadOnly);
         var body = await _mediator.Object.Send(new GetOccupiedDoctorScheduleSlotRequest());
         //Act
         var result = await Sut().SendOccupiedSlotsAsync(body, CancellationToken.None);
