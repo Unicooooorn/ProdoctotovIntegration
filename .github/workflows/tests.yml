@@ -3,8 +3,8 @@ name: Tests
 on:
   push:
     branches: [ master ]
-    paths-ignore:
-      '.github/workflows/*'
+    #paths-ignore:
+    #  '.github/workflows/*'
 jobs:
   build:
 
@@ -21,9 +21,6 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --configuration Release
     - name: Codecov
       uses: codecov/codecov-action@v3
-      with:
-       token: ${{ secrets.CODECOV_TOKEN }}
-       flags: tests
