@@ -33,7 +33,7 @@ builder.Services.AddOptions()
     .AddScheme<ApiKeyAuthenticationOptions, ApiKeyAuthenticationHandler>(
         ApiKeyAuthenticationOptions.AuthenticationScheme, _ => {});
 
-builder.Services.Configure<ConnectionOptions>(o => builder.Configuration.GetSection(ConnectionOptions.Position));
+builder.Services.Configure<ConnectionOptions>(builder.Configuration.GetSection(ConnectionOptions.Position));
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(GetScheduleRequest))!));
 
