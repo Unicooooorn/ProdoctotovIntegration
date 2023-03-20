@@ -34,7 +34,7 @@ public class ApiKeyAuthenticationHandler : AuthenticationHandler<ApiKeyAuthentic
         var identity = new ClaimsIdentity(Array.Empty<Claim>(), Options.AuthenticationType);
         var identities = new List<ClaimsIdentity> {identity};
         var principal = new ClaimsPrincipal(identities);
-        var ticket = new AuthenticationTicket(principal, Options.Scheme);
+        var ticket = new AuthenticationTicket(principal, Options.AuthenticationType);
 
         return await Task.FromResult(AuthenticateResult.Success(ticket));
     }
