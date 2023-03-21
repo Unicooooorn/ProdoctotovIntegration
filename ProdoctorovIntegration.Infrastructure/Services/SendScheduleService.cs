@@ -29,7 +29,7 @@ public class SendScheduleService : ISendScheduleService
         _authenticationOptions = authenticationOptionsMonitor.Value;
     }
 
-    public async Task<Unit> SendScheduleAsync(IReadOnlyCollection<GetScheduleResponse> events, CancellationToken cancellationToken)
+    public async Task SendScheduleAsync(IReadOnlyCollection<GetScheduleResponse> events, CancellationToken cancellationToken)
     {
         using var client = _httpClientFactory.CreateClient();
         client.DefaultRequestHeaders.Add("Authorization", _authenticationOptions.Token);
@@ -40,27 +40,36 @@ public class SendScheduleService : ISendScheduleService
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
 
-        foreach (var cell in events)
+        try
         {
-            var content = JsonContent.Create(
-                cell,
-                typeof(GetScheduleResponse),
-                new MediaTypeHeaderValue("application/json"),
-                jsonSerializeOptions);
+            foreach (var cell in events)
+            {
+                var content = JsonContent.Create(
+                    cell,
+                    typeof(GetScheduleResponse),
+                    new MediaTypeHeaderValue("application/json"),
+                    jsonSerializeOptions);
 
-            var uri = $"{ServiceUrl}/{_connectionOptions.SendSchedule}";
+                var uri = $"{ServiceUrl}/{_connectionOptions.SendSchedule}";
 
-            _logger.LogInformation("{Method} request to: {Request}", HttpMethod.Post.Method, uri);
+                _logger.LogInformation("{Method} request to: {Request}", HttpMethod.Post.Method, uri);
 
-            var response = await client.PostAsync(uri, content, cancellationToken);
+                var response = await client.PostAsync(uri, content, cancellationToken);
 
-            response.EnsureSuccessStatusCode();
+                response.EnsureSuccessStatusCode();
+            }
         }
-
-        return Unit.Value;
+        catch (HttpRequestException ex)
+        {
+            _logger.LogWarning(ex, "{Method} failed with {ExMessage}", HttpMethod.Post.Method, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Operation failed");
+        }
     }
 
-    public async Task<Unit> SendOccupiedSlotsAsync(IReadOnlyCollection<GetOccupiedDoctorScheduleSlotResponse> events, CancellationToken cancellationToken)
+    public async Task SendOccupiedSlotsAsync(IReadOnlyCollection<GetOccupiedDoctorScheduleSlotResponse> events, CancellationToken cancellationToken)
     {
         using var client = _httpClientFactory.CreateClient();
         client.DefaultRequestHeaders.Add("Authorization", _authenticationOptions.Token);
@@ -71,23 +80,32 @@ public class SendScheduleService : ISendScheduleService
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
 
-        foreach (var cell in events)
+        try
         {
-            var content = JsonContent.Create(
-                cell,
-                typeof(GetOccupiedDoctorScheduleSlotResponse),
-                new MediaTypeHeaderValue("application/json"),
-                jsonSerializeOptions);
+            foreach (var cell in events)
+            {
+                var content = JsonContent.Create(
+                    cell,
+                    typeof(GetOccupiedDoctorScheduleSlotResponse),
+                    new MediaTypeHeaderValue("application/json"),
+                    jsonSerializeOptions);
 
-            var uri = $"{ServiceUrl}/{_connectionOptions.OccupiedSchedule}";
+                var uri = $"{ServiceUrl}/{_connectionOptions.OccupiedSchedule}";
 
-            _logger.LogInformation("{Method} request to: {Request}", HttpMethod.Post.Method, uri);
+                _logger.LogInformation("{Method} request to: {Request}", HttpMethod.Post.Method, uri);
 
-            var response = await client.PostAsync(uri, content, cancellationToken);
+                var response = await client.PostAsync(uri, content, cancellationToken);
 
-            response.EnsureSuccessStatusCode();
+                response.EnsureSuccessStatusCode();
+            }
         }
-
-        return Unit.Value;
+        catch (HttpRequestException ex)
+        {
+            _logger.LogWarning(ex, "{Method} failed with {ExMessage}", HttpMethod.Post.Method, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Operation failed");
+        }
     }
 }

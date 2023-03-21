@@ -69,9 +69,9 @@ public class SendScheduleServiceTests : BaseHospitalTestWithDb
             .ReturnsAsync(cells.MapToResponse().ToList().AsReadOnly);
         var body = await _mediator.Object.Send(new GetScheduleRequest());
         //Act
-        var result = await Sut().SendScheduleAsync(body, CancellationToken.None);
+        var task = Sut().SendScheduleAsync(body, CancellationToken.None);
         //Assert
-        result.Should().Be(Unit.Value);
+        Assert.True(task.IsCompletedSuccessfully);
     }
 
     [Fact]
@@ -84,9 +84,9 @@ public class SendScheduleServiceTests : BaseHospitalTestWithDb
             .ReturnsAsync(cells.MapOccupiedSlotsToResponse().ToList().AsReadOnly);
         var body = await _mediator.Object.Send(new GetOccupiedDoctorScheduleSlotRequest());
         //Act
-        var result = await Sut().SendOccupiedSlotsAsync(body, CancellationToken.None);
+        var task = Sut().SendOccupiedSlotsAsync(body, CancellationToken.None);
         //Assert
-        result.Should().Be(Unit.Value);
+        Assert.True(task.IsCompletedSuccessfully);
     }
 
     private static Mock<IHttpClientFactory> SetupHttpClientFactory()

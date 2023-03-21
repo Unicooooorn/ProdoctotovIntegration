@@ -21,7 +21,7 @@ public static class LoggingConfiguration
             .CreateLogger();
     }
 
-    public static IConfigurationBuilder AddDefaultConfigs(this IConfigurationBuilder configuration)
+    private static IConfigurationBuilder AddDefaultConfigs(this IConfigurationBuilder configuration)
     {
         return configuration
             .AddJsonFile(
