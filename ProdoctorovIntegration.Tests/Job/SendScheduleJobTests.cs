@@ -40,6 +40,6 @@ public class SendScheduleJobTests
         //Assert
         _sendScheduleService.Verify(
             x => x.SendScheduleAsync(It.IsAny<IReadOnlyCollection<GetScheduleResponse>>(),
-                It.IsAny<CancellationToken>()));
+                It.IsAny<CancellationToken>()), Times.Once);
     }
 }
