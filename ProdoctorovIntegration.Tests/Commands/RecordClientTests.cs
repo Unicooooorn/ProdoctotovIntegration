@@ -118,7 +118,7 @@ public class RecordClientTests : BaseHospitalTestWithDb
         InitializeSetup(client.Id);
 
         var workerDto = new WorkerDtoFaker()
-            .RuleFor(x => x.Id, worker.Id)
+            .RuleFor(x => x.Id, worker.Id.ToString)
             .Generate();
 
         var command = new RecordClientCommand
@@ -160,7 +160,7 @@ public class RecordClientTests : BaseHospitalTestWithDb
             .RuleFor(x => x.DateEnd, cell.StartDate.AddMinutes(cell.Duration))
             .Generate();
         var workerDto = new WorkerDtoFaker()
-            .RuleFor(x => x.Id, worker.Id)
+            .RuleFor(x => x.Id, worker.Id.ToString)
             .Generate();
 
         var command = new RecordClientCommand

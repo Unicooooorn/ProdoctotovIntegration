@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using ProdoctorovIntegration.Application.Common;
 using ProdoctorovIntegration.Application.DbContext;
 using ProdoctorovIntegration.Application.Requests.FindClient;
-using ProdoctorovIntegration.Domain.Client;
 using System.Text.Json.Serialization;
 
 namespace ProdoctorovIntegration.Application.Command.RecordClient;
@@ -39,10 +38,17 @@ public class RecordClientCommandHandler : IRequestHandler<RecordClientCommand, R
         };
         var clientId = await _mediator.Send(request, cancellationToken);
 
+        if(!Guid.TryParse(command.Worker.Id, out var workerId))
+            return new RecordClientResponse
+            {
+                StatusCode = 416,
+                Detail = "Slot doesn't exist"
+            };
+
         var adjacentAppointmentExists = await _dbContext.Event.AnyAsync(
             x => x.Client != null && x.Client.Id == clientId &&
                  x.StartDate == command.Appointment.DateStart &&
-                 x.Worker.Id != command.Worker.Id, cancellationToken);
+                 x.Worker.Id != workerId, cancellationToken);
 
         if (adjacentAppointmentExists)
             return new RecordClientResponse
@@ -54,7 +60,7 @@ public class RecordClientCommandHandler : IRequestHandler<RecordClientCommand, R
         var duration = (command.Appointment.DateEnd - command.Appointment.DateStart).Minutes;
         var isExistsCell = await _dbContext.Event.AnyAsync(
             x => x.StartDate == command.Appointment.DateStart && x.Duration == duration &&
-                 x.Worker.Id == command.Worker.Id, cancellationToken);
+                 x.Worker.Id == workerId, cancellationToken);
         if (!isExistsCell)
             return new RecordClientResponse
             {
@@ -64,7 +70,7 @@ public class RecordClientCommandHandler : IRequestHandler<RecordClientCommand, R
 
         var cell = await _dbContext.Event.FirstOrDefaultAsync(x => x.StartDate == command.Appointment.DateStart
                                                                          && x.Duration == duration
-                                                                         && x.Worker.Id == command.Worker.Id
+                                                                         && x.Worker.Id == workerId
                                                                          && x.Client == null,
             cancellationToken);
 

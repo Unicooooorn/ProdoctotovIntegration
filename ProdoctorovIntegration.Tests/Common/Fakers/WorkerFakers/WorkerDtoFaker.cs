@@ -9,9 +9,9 @@ public sealed class WorkerDtoFaker : Faker<WorkerDto>
     {
         CustomInstantiator(f => new WorkerDto
         {
-            Id = Guid.NewGuid(),
-            LpuId = Guid.NewGuid(),
-            Speciality = new SpecialityDto
+            Id = Guid.NewGuid().ToString(),
+            LpuId = Guid.NewGuid().ToString(),
+            Specialty = new SpecialtyDto
             {
                 Id = f.Random.Int(0, 10),
                 Name = f.Name.JobArea()

@@ -32,7 +32,7 @@ public class SendScheduleService : ISendScheduleService
     public async Task SendScheduleAsync(IReadOnlyCollection<GetScheduleResponse> events, CancellationToken cancellationToken)
     {
         using var client = _httpClientFactory.CreateClient();
-        client.DefaultRequestHeaders.Add("Authorization", _authenticationOptions.Token);
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", _authenticationOptions.Token);
 
         var jsonSerializeOptions = new JsonSerializerOptions
         {

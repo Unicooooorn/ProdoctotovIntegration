@@ -56,6 +56,19 @@ public class GetClientByPhoneOrCreateRequestTests : BaseHospitalTestWithDb
         }
     }
 
+    [Fact]
+    public async Task ReturnException_WhenPhoneNumberIncorrect()
+    {
+        //Arrange
+        InitializeSetups();
+        var request = await CreateRequestForException();
+        request.Client.MobilePhone += "incorrect";
+        //Act
+        var result = Sut().Handle(request, CancellationToken.None);
+        //Assert
+        await Assert.ThrowsAsync<ArgumentException>(() => result);
+    }
+
     private async Task<GetClientByPhoneOrCreateRequest> CreateRequestForFound()
     {
         var client = new ClientFaker().Generate();
@@ -74,6 +87,19 @@ public class GetClientByPhoneOrCreateRequestTests : BaseHospitalTestWithDb
         var client = new ClientFaker().Generate();
         var clientDto = new ClientDtoFaker().Generate();
         var clientContact = new ClientContactFaker().Generate();
+
+        await HospitalContext.AddAsync(client);
+        await HospitalContext.AddAsync(clientContact);
+        await HospitalContext.SaveChangesAsync();
+
+        return new GetClientByPhoneOrCreateRequest(clientDto, new List<Client> {client});
+    }
+
+    private async Task<GetClientByPhoneOrCreateRequest> CreateRequestForException()
+    {
+        var client = new ClientFaker().Generate();
+        var clientDto = new ClientDtoFaker().Generate();
+        var clientContact = new ClientContactFaker(client, clientDto.MobilePhone).Generate();
 
         await HospitalContext.AddAsync(client);
         await HospitalContext.AddAsync(clientContact);

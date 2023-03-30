@@ -5,9 +5,9 @@ namespace ProdoctorovIntegration.Application.Common;
 public class WorkerDto
 {
     [JsonPropertyName("id")]
-    public Guid Id { get; set; }
+    public string Id { get; set; } = string.Empty;
     [JsonPropertyName("lpu_id")]
-    public Guid LpuId { get; set; }
-    [JsonPropertyName("speciality")]
-    public SpecialityDto Speciality { get; set; } = new();
+    public string LpuId { get; set; } = string.Empty;
+    [JsonPropertyName("specialty")]
+    public SpecialtyDto Specialty { get; set; } = new();
 }

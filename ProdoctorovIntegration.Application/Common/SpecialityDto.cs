@@ -2,7 +2,7 @@
 
 namespace ProdoctorovIntegration.Application.Common;
 
-public class SpecialityDto
+public class SpecialtyDto
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }

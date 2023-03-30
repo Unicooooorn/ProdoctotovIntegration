@@ -2,6 +2,12 @@
 
 public class GetScheduleResponse
 {
+
+    public Schedule Schedule { get; set; } = new();
+}
+
+public class Schedule
+{
     public string DepartmentName { get; set; } = string.Empty;
     public DoctorScheduleData Data { get; set; } = new();
 }

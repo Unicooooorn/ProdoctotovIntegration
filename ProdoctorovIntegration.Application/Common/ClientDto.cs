@@ -12,8 +12,8 @@ public class ClientDto
     public string SecondName { get; set; } = string.Empty;
     [JsonPropertyName("last_name")]
     public string LastName { get; set; } = string.Empty;
-    [JsonPropertyName("mobile_phone")]
-    public long MobilePhone { get; set; }
+    [JsonPropertyName("mobile_phone")] 
+    public string? MobilePhone { get; set; }
     [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
     [JsonPropertyName("birthday")]
     public DateTime Birthday { get; set; }

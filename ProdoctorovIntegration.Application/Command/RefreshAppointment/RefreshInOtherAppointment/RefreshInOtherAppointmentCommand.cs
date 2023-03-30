@@ -37,10 +37,16 @@ public class
                 StatusCode = 404
             };
 
+        if (!Guid.TryParse(request.Worker?.Id, out var workerId) && request.Worker is not null)
+            return new RefreshAppointmentResponse
+            {
+                StatusCode = 404
+            };
+
         var worker =
-            await _dbContext.Worker.FirstOrDefaultAsync(x => request.Worker != null && x.Id == request.Worker.Id,
+            await _dbContext.Worker.FirstOrDefaultAsync(x => x.Id == workerId,
                 cancellationToken);
-        if(worker is not null)
+        if (worker is not null)
             currentAppointment.Worker = worker;
 
         if (request.Client != null)

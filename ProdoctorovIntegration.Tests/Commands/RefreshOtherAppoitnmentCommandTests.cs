@@ -85,7 +85,7 @@ public class RefreshOtherAppoitnmentCommandTests : BaseHospitalTestWithDb
         await HospitalContext.AddRangeAsync(worker, otherWorker, appointment);
         await HospitalContext.SaveChangesAsync();
         var workerDto = new WorkerDtoFaker()
-            .RuleFor(x => x.Id, otherWorker.Id)
+            .RuleFor(x => x.Id, otherWorker.Id.ToString)
             .Generate();
         var command = new RefreshInOtherAppointmentCommand {ClaimId = claimId, Worker = workerDto};
         //Act
@@ -120,7 +120,7 @@ public class RefreshOtherAppoitnmentCommandTests : BaseHospitalTestWithDb
             .RuleFor(x => x.DateEnd, otherAppointment.StartDate.AddMinutes(otherAppointment.Duration))
             .Generate();
         var workerDto = new WorkerDtoFaker()
-            .RuleFor(x => x.Id, worker.Id)
+            .RuleFor(x => x.Id, worker.Id.ToString)
             .Generate();
         var command = new RefreshInOtherAppointmentCommand
             {ClaimId = claimId, Worker = workerDto, Appointment = appointmentDto};

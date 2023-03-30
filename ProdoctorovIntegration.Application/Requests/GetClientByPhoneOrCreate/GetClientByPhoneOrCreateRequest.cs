@@ -31,8 +31,10 @@ public class GetClientByPhoneOrCreateRequestHandler : IRequestHandler<GetClientB
     public async Task<Guid> Handle(GetClientByPhoneOrCreateRequest request, CancellationToken cancellationToken)
     {
         var clientsGuid = request.Clients.Select(x => x.Id);
+        if(!long.TryParse(request.Client.MobilePhone, out var digits))
+            throw new ArgumentException("Phone number incorrect");
         var clientContact = await _dbContext.ClientContact
-            .Where(x => clientsGuid.Contains(x.Client != null ? x.Client.Id : Guid.Empty) && x.ContactOnlyDigits.Equals(request.Client.MobilePhone))
+            .Where(x => clientsGuid.Contains(x.Client != null ? x.Client.Id : Guid.Empty) && x.ContactOnlyDigits.Equals(digits))
             .ToListAsync(cancellationToken);
 
         return clientContact.Count == 1

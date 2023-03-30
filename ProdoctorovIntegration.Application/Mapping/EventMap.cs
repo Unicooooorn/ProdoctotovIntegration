@@ -15,22 +15,25 @@ public static class EventMap
             .ToDictionary(x => x.Key, x => x.ToList())
             .Select(x => new GetScheduleResponse
             {
-                Data = new DoctorScheduleData
+                Schedule = new Schedule
                 {
-                    Department = new Department
+                    Data = new DoctorScheduleData
                     {
-                        DoctorInfo = new DoctorInfo
+                        Department = new Department
                         {
-                            Speciality = x.Value.FirstOrDefault()?.Worker.Staff.Speciality ?? string.Empty,
-                            FullName = GetWorkerFullName(x.Value.FirstOrDefault()!.Worker),
-                            Cells = x.Value.Select(c => new Cell
+                            DoctorInfo = new DoctorInfo
                             {
-                                Date = c.StartDate.ToString("yyyy-MM-dd"),
-                                TimeStart = c.StartDate.ToString("t"),
-                                TimeEnd = c.StartDate.AddMinutes(c.Duration).ToString("t"),
-                                IsFree = c.Client == null
-                            })
-                                .ToArray()
+                                Speciality = x.Value.FirstOrDefault()?.Worker.Staff.Speciality ?? string.Empty,
+                                FullName = GetWorkerFullName(x.Value.FirstOrDefault()!.Worker),
+                                Cells = x.Value.Select(c => new Cell
+                                    {
+                                        Date = c.StartDate.ToString("yyyy-MM-dd"),
+                                        TimeStart = c.StartDate.ToString("t"),
+                                        TimeEnd = c.StartDate.AddMinutes(c.Duration).ToString("t"),
+                                        IsFree = c.Client == null
+                                    })
+                                    .ToArray()
+                            }
                         }
                     }
                 }
