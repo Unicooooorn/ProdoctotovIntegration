@@ -20,6 +20,7 @@ namespace ProdoctorovIntegration.Tests.Services;
 
 public class SendScheduleServiceTests : BaseHospitalTestWithDb
 {
+    private const string OrganizationName = "OrgName";
     private const string OccupiedScheduleUrl = "url1";
     private const string SendScheduleUrl = "url2";
     private const string Token = "token";
@@ -66,7 +67,7 @@ public class SendScheduleServiceTests : BaseHospitalTestWithDb
         var cell = new EventFaker().Generate();
         var cells = new[] { cell };
         _mediator.Setup(x => x.Send(It.IsAny<GetScheduleRequest>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(cells.MapToResponse().ToList().AsReadOnly);
+            .ReturnsAsync(cells.MapToResponse(OrganizationName).ToList().AsReadOnly);
         var body = await _mediator.Object.Send(new GetScheduleRequest());
         //Act
         var task = Sut().SendScheduleAsync(body, CancellationToken.None);

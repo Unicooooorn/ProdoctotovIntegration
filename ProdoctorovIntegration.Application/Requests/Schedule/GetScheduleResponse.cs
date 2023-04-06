@@ -1,4 +1,6 @@
-﻿namespace ProdoctorovIntegration.Application.Requests.Schedule;
+﻿using System.Text.Json.Serialization;
+
+namespace ProdoctorovIntegration.Application.Requests.Schedule;
 
 public class GetScheduleResponse
 {
@@ -8,24 +10,27 @@ public class GetScheduleResponse
 
 public class Schedule
 {
-    public string DepartmentName { get; set; } = string.Empty;
+    [JsonExtensionData]
+    public Dictionary<string, object> DepartmentName { get; set; } = new();
     public DoctorScheduleData Data { get; set; } = new();
 }
 
 public class DoctorScheduleData
 {
-    public Department Department { get; set; } = new();
+    [JsonExtensionData]
+    public Dictionary<string, object> Department { get; set; } = new();
 }
 
 public class Department
 {
-    public DoctorInfo DoctorInfo { get; set; } = new();
+    [JsonExtensionData]
+    public Dictionary<string, object> DoctorInfo { get; set; } = new();
 }
 
 public class DoctorInfo
 {
     public string FullName { get; set; } = string.Empty;
-    public string Speciality { get; set; } = string.Empty;
+    public string Specialty { get; set; } = string.Empty;
     public Cell[] Cells { get; set; } = Array.Empty<Cell>();
 }
 

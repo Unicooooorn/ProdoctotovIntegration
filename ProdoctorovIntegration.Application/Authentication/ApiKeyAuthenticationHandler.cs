@@ -26,7 +26,7 @@ public class ApiKeyAuthenticationHandler : AuthenticationHandler<ApiKeyAuthentic
         if (!Request.Headers.TryGetValue(ApiKeyAuthenticationOptions.ApiKeyHeader, out var apiKeyHeaderValues))
             return await Task.FromResult(AuthenticateResult.NoResult());
 
-        var apiKeys = _authenticationOptions.Token;
+        var apiKeys = $"Token {_authenticationOptions.Token}";
         var providerApiKey = apiKeyHeaderValues.FirstOrDefault();
         if (string.IsNullOrWhiteSpace(providerApiKey) || !apiKeys.Equals(providerApiKey))
             return await Task.FromResult(AuthenticateResult.Fail("Invalid Authentication Token"));

@@ -12,6 +12,8 @@ namespace ProdoctorovIntegration.Tests.Job;
 
 public class SendScheduleJobTests
 {
+    private const string OrganizationName = "OrgName";
+
     private readonly Mock<ISendScheduleService> _sendScheduleService;
     private readonly Mock<IScopedRequestExecutor> _scopedRequestExecutor;
 
@@ -34,7 +36,7 @@ public class SendScheduleJobTests
         var cell = new EventFaker().Generate();
         var cells = new[] { cell };
         _scopedRequestExecutor.Setup(x => x.Execute(It.IsAny<GetScheduleRequest>()))
-            .ReturnsAsync(cells.MapToResponse().ToList().AsReadOnly);
+            .ReturnsAsync(cells.MapToResponse(OrganizationName).ToList().AsReadOnly);
         //Act
         await Sut().Execute(Mock.Of<IJobExecutionContext>());
         //Assert

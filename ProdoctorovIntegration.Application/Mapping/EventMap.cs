@@ -9,7 +9,7 @@ namespace ProdoctorovIntegration.Application.Mapping;
 public static class EventMap
 {
     private const char Space = ' ';
-    public static IEnumerable<GetScheduleResponse> MapToResponse(this IEnumerable<Event> events)
+    public static IEnumerable<GetScheduleResponse> MapToResponse(this IEnumerable<Event> events, string? organizationName)
     {
         return events.GroupBy(x => x.Worker.Id)
             .ToDictionary(x => x.Key, x => x.ToList())
@@ -17,23 +17,33 @@ public static class EventMap
             {
                 Schedule = new Schedule
                 {
+                    DepartmentName = new Dictionary<string, object>
+                    {
+                        {x.Value.FirstOrDefault()?.Worker.Staff.Id.ToString() ?? string.Empty, organizationName ?? string.Empty}
+                    },
                     Data = new DoctorScheduleData
                     {
-                        Department = new Department
+                        Department = new Dictionary<string, object>
                         {
-                            DoctorInfo = new DoctorInfo
+                            {x.Value.FirstOrDefault()?.Worker.Staff.Id.ToString() ?? string.Empty, new Department
                             {
-                                Speciality = x.Value.FirstOrDefault()?.Worker.Staff.Speciality ?? string.Empty,
-                                FullName = GetWorkerFullName(x.Value.FirstOrDefault()!.Worker),
-                                Cells = x.Value.Select(c => new Cell
+                                DoctorInfo = new Dictionary<string, object>
+                                {
+                                    {x.Key.ToString(), new DoctorInfo
                                     {
-                                        Date = c.StartDate.ToString("yyyy-MM-dd"),
-                                        TimeStart = c.StartDate.ToString("t"),
-                                        TimeEnd = c.StartDate.AddMinutes(c.Duration).ToString("t"),
-                                        IsFree = c.Client == null
-                                    })
-                                    .ToArray()
-                            }
+                                        Specialty = x.Value.FirstOrDefault()?.Worker.Staff.Speciality ?? string.Empty,
+                                        FullName = GetWorkerFullName(x.Value.FirstOrDefault()!.Worker),
+                                        Cells = x.Value.Select(c => new Cell
+                                            {
+                                                Date = c.StartDate.ToString("yyyy-MM-dd"),
+                                                TimeStart = c.StartDate.ToString("t"),
+                                                TimeEnd = c.StartDate.AddMinutes(c.Duration).ToString("t"),
+                                                IsFree = c.Client == null
+                                            })
+                                            .ToArray()
+                                    }}
+                                }
+                            }}
                         }
                     }
                 }

@@ -1,4 +1,7 @@
 ﻿using FluentAssertions;
+using Microsoft.Extensions.Options;
+using Moq;
+using ProdoctorovIntegration.Application.Options;
 using ProdoctorovIntegration.Application.Requests.Schedule;
 using ProdoctorovIntegration.Tests.Common;
 using ProdoctorovIntegration.Tests.Common.Fakers;
@@ -9,13 +12,22 @@ namespace ProdoctorovIntegration.Tests.Requests;
 
 public class GetScheduleRequestTests : BaseHospitalTestWithDb
 {
+    private const string OrganizationName = "OrgName";
+    private readonly OrganizationNameOptions _organizationNameOptions;
     public GetScheduleRequestTests(HospitalDatabaseFixture databaseFixture) : base(databaseFixture)
     {
+        _organizationNameOptions = new OrganizationNameOptions
+        {
+            Name = OrganizationName
+        };
     }
 
     private GetScheduleRequestHandler Sut()
     {
-        return new GetScheduleRequestHandler(HospitalContext);
+        var organizationNameOptions = new Mock<IOptions<OrganizationNameOptions>>();
+        organizationNameOptions.Setup(x => x.Value)
+            .Returns(_organizationNameOptions);
+        return new GetScheduleRequestHandler(HospitalContext, organizationNameOptions.Object);
     }
 
     [Fact]
