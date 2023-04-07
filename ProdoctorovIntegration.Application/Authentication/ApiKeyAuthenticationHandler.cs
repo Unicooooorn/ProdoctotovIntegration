@@ -31,10 +31,10 @@ public class ApiKeyAuthenticationHandler : AuthenticationHandler<ApiKeyAuthentic
         if (string.IsNullOrWhiteSpace(providerApiKey) || !apiKeys.Equals(providerApiKey))
             return await Task.FromResult(AuthenticateResult.Fail("Invalid Authentication Token"));
 
-        var identity = new ClaimsIdentity(Array.Empty<Claim>(), ApiKeyAuthenticationOptions.AuthenticationType);
+        var identity = new ClaimsIdentity(Array.Empty<Claim>(), ApiKeyAuthenticationOptions.AuthenticationScheme);
         var identities = new List<ClaimsIdentity> {identity};
         var principal = new ClaimsPrincipal(identities);
-        var ticket = new AuthenticationTicket(principal, ApiKeyAuthenticationOptions.AuthenticationType);
+        var ticket = new AuthenticationTicket(principal, ApiKeyAuthenticationOptions.AuthenticationScheme);
 
         return await Task.FromResult(AuthenticateResult.Success(ticket));
     }
