@@ -7,10 +7,10 @@ using ProdoctorovIntegration.Application.Options;
 
 namespace ProdoctorovIntegration.Application.Requests.Schedule;
 
-public class GetScheduleRequest : IRequest<IReadOnlyCollection<GetScheduleResponse>>
+public class GetScheduleRequest : IRequest<GetScheduleResponse>
 { }
 
-public class GetScheduleRequestHandler : IRequestHandler<GetScheduleRequest, IReadOnlyCollection<GetScheduleResponse>>
+public class GetScheduleRequestHandler : IRequestHandler<GetScheduleRequest, GetScheduleResponse>
 {
     private readonly HospitalDbContext _dbContext;
     private readonly OrganizationNameOptions _organizationNameOptions;
@@ -21,11 +21,11 @@ public class GetScheduleRequestHandler : IRequestHandler<GetScheduleRequest, IRe
         _organizationNameOptions = options.Value;
     }
 
-    public async Task<IReadOnlyCollection<GetScheduleResponse>> Handle(GetScheduleRequest request, CancellationToken cancellationToken)
+    public async Task<GetScheduleResponse> Handle(GetScheduleRequest request, CancellationToken cancellationToken)
     {
         var events = await _dbContext.Event.Where(
             e => e.IsForProdoctorov && e.StartDate > DateTime.UtcNow)
-            .ToArrayAsync(cancellationToken);
-        return events.MapToResponse(_organizationNameOptions.Name).ToArray();
+            .ToListAsync(cancellationToken);
+        return events.MapToResponse(_organizationNameOptions.Name);
     }
 }

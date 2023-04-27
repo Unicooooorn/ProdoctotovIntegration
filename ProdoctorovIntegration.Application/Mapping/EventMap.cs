@@ -9,45 +9,45 @@ namespace ProdoctorovIntegration.Application.Mapping;
 public static class EventMap
 {
     private const char Space = ' ';
-    public static IEnumerable<GetScheduleResponse> MapToResponse(this IEnumerable<Event> events, string? organizationName)
+    public static GetScheduleResponse MapToResponse(this IList<Event> events, string? organizationName)
     {
-        return events.GroupBy(x => x.Worker.Id)
-            .ToDictionary(x => x.Key, x => x.ToList())
-            .Select(x => new GetScheduleResponse
+        return new GetScheduleResponse
+        {
+            Schedule = new Schedule
             {
-                Schedule = new Schedule
+                DepartmentName = new Dictionary<string, object>
                 {
-                    DepartmentName = new Dictionary<string, object>
                     {
-                        {x.Value.FirstOrDefault()?.Worker.Staff.Id.ToString() ?? string.Empty, organizationName ?? string.Empty}
-                    },
-                    Data = new DoctorScheduleData
+                        events.FirstOrDefault()?.Worker.Staff.Id.ToString() ?? string.Empty,
+                        organizationName ?? string.Empty
+                    }
+                },
+                Data = new DoctorScheduleData
+                {
+                    Department = new Dictionary<string, object>
                     {
-                        Department = new Dictionary<string, object>
                         {
-                            {x.Value.FirstOrDefault()?.Worker.Staff.Id.ToString() ?? string.Empty, new Department
-                            {
-                                DoctorInfo = new Dictionary<string, object>
+                            events.FirstOrDefault()?.Worker.Staff.Id.ToString() ?? string.Empty,
+                            events.GroupBy(x => x.Worker.Id)
+                                .ToDictionary(x => x.Key, x => x.ToList())
+                                .ToDictionary(x => x.Key, x => new DoctorInfo
                                 {
-                                    {x.Key.ToString(), new DoctorInfo
-                                    {
-                                        Specialty = x.Value.FirstOrDefault()?.Worker.Staff.Speciality ?? string.Empty,
-                                        FullName = GetWorkerFullName(x.Value.FirstOrDefault()!.Worker),
-                                        Cells = x.Value.Select(c => new Cell
-                                            {
-                                                Date = c.StartDate.ToString("yyyy-MM-dd"),
-                                                TimeStart = c.StartDate.ToString("t"),
-                                                TimeEnd = c.StartDate.AddMinutes(c.Duration).ToString("t"),
-                                                IsFree = c.Client == null
-                                            })
-                                            .ToArray()
-                                    }}
-                                }
-                            }}
+                                    Specialty = x.Value.FirstOrDefault()?.Worker?.Staff?.Speciality ?? string.Empty,
+                                    FullName = GetWorkerFullName(x.Value.FirstOrDefault()?.Worker!),
+                                    Cells = x.Value.DistinctBy(q => q.StartDate).Select(q => new Cell
+                                        {
+                                            Date = q.StartDate.ToString("yyyy-MM-dd"),
+                                            TimeStart = q.StartDate.ToString("t"),
+                                            TimeEnd = q.StartDate.AddMinutes(q.Duration).ToString("t"),
+                                            IsFree = q.Client is null
+                                        })
+                                        .ToArray()
+                                })
                         }
                     }
                 }
-            });
+            }
+        };
     }
 
     public static IEnumerable<GetOccupiedDoctorScheduleSlotResponse> MapOccupiedSlotsToResponse(
@@ -64,7 +64,7 @@ public static class EventMap
                     {
                         TimeStart = y.StartDate.ToString("t"),
                         TimeEnd = y.StartDate.AddMinutes(y.Duration).ToString("t"),
-                        IsFree = y.Client == null
+                        IsFree = y.ClientId is null
                     })
                     .ToArray()
             });

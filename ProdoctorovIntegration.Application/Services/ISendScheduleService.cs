@@ -5,6 +5,6 @@ namespace ProdoctorovIntegration.Application.Services;
 
 public interface ISendScheduleService
 {
-    Task SendScheduleAsync(IReadOnlyCollection<GetScheduleResponse> events, CancellationToken cancellationToken);
+    Task SendScheduleAsync(GetScheduleResponse events, CancellationToken cancellationToken);
     Task SendOccupiedSlotsAsync(IReadOnlyCollection<GetOccupiedDoctorScheduleSlotResponse> events, CancellationToken cancellationToken);
 }

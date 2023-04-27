@@ -29,7 +29,7 @@ public class SendScheduleService : ISendScheduleService
         _authenticationOptions = authenticationOptionsMonitor.Value;
     }
 
-    public async Task SendScheduleAsync(IReadOnlyCollection<GetScheduleResponse> events, CancellationToken cancellationToken)
+    public async Task SendScheduleAsync(GetScheduleResponse events, CancellationToken cancellationToken)
     {
         using var client = _httpClientFactory.CreateClient();
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", _authenticationOptions.Token);
@@ -42,22 +42,20 @@ public class SendScheduleService : ISendScheduleService
 
         try
         {
-            foreach (var cell in events)
-            {
-                var content = JsonContent.Create(
-                    cell,
-                    typeof(GetScheduleResponse),
-                    new MediaTypeHeaderValue("application/json"),
-                    jsonSerializeOptions);
+            var content = JsonContent.Create(
+                events,
+                typeof(GetScheduleResponse),
+                new MediaTypeHeaderValue("application/json"),
+                jsonSerializeOptions);
 
-                var uri = $"{ServiceUrl}/{_connectionOptions.SendSchedule}";
+            var uri = $"{ServiceUrl}/{_connectionOptions.SendSchedule}";
 
-                _logger.LogInformation("{Method} request to: {Request}", HttpMethod.Post.Method, uri);
+            _logger.LogInformation("{Method} request to: {Request}", HttpMethod.Post.Method, uri);
 
-                var response = await client.PostAsync(uri, content, cancellationToken);
+            var response = await client.PostAsync(uri, content, cancellationToken);
 
-                response.EnsureSuccessStatusCode();
-            }
+            response.EnsureSuccessStatusCode();
+            
         }
         catch (HttpRequestException ex)
         {
