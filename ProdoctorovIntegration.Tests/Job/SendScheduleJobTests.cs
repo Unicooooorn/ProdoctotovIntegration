@@ -36,12 +36,12 @@ public class SendScheduleJobTests
         var cell = new EventFaker().Generate();
         var cells = new[] { cell };
         _scopedRequestExecutor.Setup(x => x.Execute(It.IsAny<GetScheduleRequest>()))
-            .ReturnsAsync(cells.MapToResponse(OrganizationName).ToList().AsReadOnly);
+            .ReturnsAsync(cells.MapToResponse(OrganizationName));
         //Act
         await Sut().Execute(Mock.Of<IJobExecutionContext>());
         //Assert
         _sendScheduleService.Verify(
-            x => x.SendScheduleAsync(It.IsAny<IReadOnlyCollection<GetScheduleResponse>>(),
+            x => x.SendScheduleAsync(It.IsAny<GetScheduleResponse>(),
                 It.IsAny<CancellationToken>()), Times.Once);
     }
 }

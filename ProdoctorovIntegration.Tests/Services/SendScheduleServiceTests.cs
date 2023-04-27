@@ -67,7 +67,7 @@ public class SendScheduleServiceTests : BaseHospitalTestWithDb
         var cell = new EventFaker().Generate();
         var cells = new[] { cell };
         _mediator.Setup(x => x.Send(It.IsAny<GetScheduleRequest>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(cells.MapToResponse(OrganizationName).ToList().AsReadOnly);
+            .ReturnsAsync(cells.MapToResponse(OrganizationName));
         var body = await _mediator.Object.Send(new GetScheduleRequest());
         //Act
         var task = Sut().SendScheduleAsync(body, CancellationToken.None);

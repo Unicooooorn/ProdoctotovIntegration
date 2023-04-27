@@ -26,6 +26,6 @@ public class GetScheduleRequestHandler : IRequestHandler<GetScheduleRequest, Get
         var events = await _dbContext.Event.Where(
             e => e.IsForProdoctorov && e.StartDate > DateTime.UtcNow)
             .ToListAsync(cancellationToken);
-        return events.MapToResponse(_organizationNameOptions.Name);
+        return events.Count > 0 ? events.MapToResponse(_organizationNameOptions.Name) : new GetScheduleResponse();
     }
 }

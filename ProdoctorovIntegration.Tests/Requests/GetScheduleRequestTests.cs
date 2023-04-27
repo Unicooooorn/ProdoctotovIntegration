@@ -36,11 +36,11 @@ public class GetScheduleRequestTests : BaseHospitalTestWithDb
         //Act
         var result = await Sut().Handle(new GetScheduleRequest(), CancellationToken.None);
         //Assert
-        result.Should().BeEmpty();
+        result.Schedule.Data.Department.Should().BeEmpty();
     }
 
     [Fact]
-    public async Task ReturnCollection_WhenEventsFound()
+    public async Task ReturnData_WhenEventsFound()
     {
         //Arrange
         var worker = new WorkerFaker().Generate();
@@ -51,6 +51,6 @@ public class GetScheduleRequestTests : BaseHospitalTestWithDb
         //Act
         var result = await Sut().Handle(new GetScheduleRequest(), CancellationToken.None);
         //Assert
-        result.Should().NotBeEmpty();
+        result.Should().NotBeNull();
     }
 }
