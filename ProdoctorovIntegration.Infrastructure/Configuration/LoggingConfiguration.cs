@@ -16,8 +16,8 @@ public static class LoggingConfiguration
         return new LoggerConfiguration()
             .Enrich.FromLogContext()
             .Enrich.WithProperty("Environment", environment ?? "Development")
-            .Enrich.WithCorrelationId()
             .ReadFrom.Configuration(configuration)
+            .WriteTo.File("prodoctorov-integration-log-.txt", rollingInterval: RollingInterval.Day, rollOnFileSizeLimit:true)
             .CreateLogger();
     }
 
