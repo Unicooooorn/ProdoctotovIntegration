@@ -33,7 +33,6 @@
   <ItemGroup>
     <Folder Include="Common\Fakers\WorkerFakers\" />
     <Folder Include="Job\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>

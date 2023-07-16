@@ -1,4 +1,4 @@
-﻿namespace ProdoctorovIntegration.Application.Command.RecordClient;
+﻿namespace ProdoctorovIntegration.Application.Response;
 
 public class RecordClientResponse
 {

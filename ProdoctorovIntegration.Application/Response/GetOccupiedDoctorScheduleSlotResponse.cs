@@ -1,6 +1,4 @@
-﻿using ProdoctorovIntegration.Application.Requests.Schedule;
-
-namespace ProdoctorovIntegration.Application.Requests.OccupiedDoctorScheduleSlot;
+﻿namespace ProdoctorovIntegration.Application.Response;
 
 public class GetOccupiedDoctorScheduleSlotResponse
 {

@@ -1,4 +1,4 @@
-﻿namespace ProdoctorovIntegration.Application.Command.RefreshAppointment;
+﻿namespace ProdoctorovIntegration.Application.Response;
 
 public class RefreshAppointmentResponse
 {

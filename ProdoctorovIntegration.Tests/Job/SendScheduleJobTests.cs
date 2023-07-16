@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ProdoctorovIntegration.Application.Mapping;
-using ProdoctorovIntegration.Application.Requests.Schedule;
+using ProdoctorovIntegration.Application.Response;
 using ProdoctorovIntegration.Application.Services;
 using ProdoctorovIntegration.Infrastructure.Jobs;
 using ProdoctorovIntegration.Tests.Common.Fakers;
@@ -15,18 +15,18 @@ public class SendScheduleJobTests
     private const string OrganizationName = "OrgName";
 
     private readonly Mock<ISendScheduleService> _sendScheduleService;
-    private readonly Mock<IScopedRequestExecutor> _scopedRequestExecutor;
+    private readonly Mock<IScheduleService> _scheduleServiceMock;
 
     public SendScheduleJobTests()
     {
         _sendScheduleService = new Mock<ISendScheduleService>();
-        _scopedRequestExecutor = new Mock<IScopedRequestExecutor>();
+        _scheduleServiceMock = new Mock<IScheduleService>();
     }
 
     private SendScheduleJob Sut()
     {
         return new SendScheduleJob(_sendScheduleService.Object, new NullLogger<SendScheduleJob>(),
-            _scopedRequestExecutor.Object);
+            _scheduleServiceMock.Object);
     }
 
     [Fact]
@@ -35,7 +35,7 @@ public class SendScheduleJobTests
         //Arrange
         var cell = new EventFaker().Generate();
         var cells = new[] { cell };
-        _scopedRequestExecutor.Setup(x => x.Execute(It.IsAny<GetScheduleRequest>()))
+        _scheduleServiceMock.Setup(x => x.GetScheduleAsync(CancellationToken.None))
             .ReturnsAsync(cells.MapToResponse(OrganizationName));
         //Act
         await Sut().Execute(Mock.Of<IJobExecutionContext>());

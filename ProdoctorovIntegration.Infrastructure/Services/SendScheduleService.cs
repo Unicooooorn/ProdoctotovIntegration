@@ -1,10 +1,8 @@
-﻿using MediatR;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ProdoctorovIntegration.Application.Options;
 using ProdoctorovIntegration.Application.Options.Authentication;
-using ProdoctorovIntegration.Application.Requests.OccupiedDoctorScheduleSlot;
-using ProdoctorovIntegration.Application.Requests.Schedule;
+using ProdoctorovIntegration.Application.Response;
 using ProdoctorovIntegration.Application.Services;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -29,7 +27,7 @@ public class SendScheduleService : ISendScheduleService
         _authenticationOptions = authenticationOptionsMonitor.Value;
     }
 
-    public async Task SendScheduleAsync(GetScheduleResponse events, CancellationToken cancellationToken)
+    public async Task SendScheduleAsync(GetScheduleResponse events, CancellationToken cancellationToken = default)
     {
         using var client = _httpClientFactory.CreateClient();
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", _authenticationOptions.Token);
@@ -67,7 +65,7 @@ public class SendScheduleService : ISendScheduleService
         }
     }
 
-    public async Task SendOccupiedSlotsAsync(IReadOnlyCollection<GetOccupiedDoctorScheduleSlotResponse> events, CancellationToken cancellationToken)
+    public async Task SendOccupiedSlotsAsync(IEnumerable<GetOccupiedDoctorScheduleSlotResponse> events, CancellationToken cancellationToken = default)
     {
         using var client = _httpClientFactory.CreateClient();
         client.DefaultRequestHeaders.Add("Authorization", _authenticationOptions.Token);

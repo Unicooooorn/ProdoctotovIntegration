@@ -1,10 +1,9 @@
-﻿using ProdoctorovIntegration.Application.Requests.OccupiedDoctorScheduleSlot;
-using ProdoctorovIntegration.Application.Requests.Schedule;
+﻿using ProdoctorovIntegration.Application.Response;
 
 namespace ProdoctorovIntegration.Application.Services;
 
 public interface ISendScheduleService
 {
-    Task SendScheduleAsync(GetScheduleResponse events, CancellationToken cancellationToken);
-    Task SendOccupiedSlotsAsync(IReadOnlyCollection<GetOccupiedDoctorScheduleSlotResponse> events, CancellationToken cancellationToken);
+    Task SendScheduleAsync(GetScheduleResponse events, CancellationToken cancellationToken = default);
+    Task SendOccupiedSlotsAsync(IEnumerable<GetOccupiedDoctorScheduleSlotResponse> events, CancellationToken cancellationToken = default);
 }

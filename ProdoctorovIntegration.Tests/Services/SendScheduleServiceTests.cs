@@ -1,19 +1,14 @@
-﻿using FluentAssertions;
-using MediatR;
-using Microsoft.Extensions.Logging.Abstractions;
+﻿using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Moq;
 using Moq.Protected;
+using ProdoctorovIntegration.Application.Mapping;
 using ProdoctorovIntegration.Application.Options;
 using ProdoctorovIntegration.Application.Options.Authentication;
-using ProdoctorovIntegration.Application.Requests.OccupiedDoctorScheduleSlot;
-using ProdoctorovIntegration.Application.Requests.Schedule;
 using ProdoctorovIntegration.Infrastructure.Services;
 using ProdoctorovIntegration.Tests.Common;
 using ProdoctorovIntegration.Tests.Common.Fakers;
 using System.Net;
-using ProdoctorovIntegration.Application.Mapping;
-using ProdoctorovIntegration.Domain;
 using Xunit;
 
 namespace ProdoctorovIntegration.Tests.Services;
@@ -27,7 +22,6 @@ public class SendScheduleServiceTests : BaseHospitalTestWithDb
     private readonly Mock<IHttpClientFactory> _httpClientFactory;
     private readonly ConnectionOptions _connectionOptions;
     private readonly AuthenticationOptions _authenticationOptions;
-    private readonly Mock<IMediator> _mediator;
 
     public SendScheduleServiceTests(HospitalDatabaseFixture databaseFixture) : base(databaseFixture)
     {
@@ -44,7 +38,6 @@ public class SendScheduleServiceTests : BaseHospitalTestWithDb
             Token = Token
         };
 
-        _mediator = new Mock<IMediator>();
     }
 
     private SendScheduleService Sut()
@@ -61,33 +54,31 @@ public class SendScheduleServiceTests : BaseHospitalTestWithDb
     }
 
     [Fact]
-    public async Task SendSchedule()
+    public Task SendSchedule()
     {
         //Arrange
         var cell = new EventFaker().Generate();
         var cells = new[] { cell };
-        _mediator.Setup(x => x.Send(It.IsAny<GetScheduleRequest>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(cells.MapToResponse(OrganizationName));
-        var body = await _mediator.Object.Send(new GetScheduleRequest());
+        var body = cells.MapToResponse(OrganizationName);
         //Act
         var task = Sut().SendScheduleAsync(body, CancellationToken.None);
         //Assert
         Assert.True(task.IsCompletedSuccessfully);
+        return Task.CompletedTask;
     }
 
     [Fact]
-    public async Task SendOccupiedSchedule()
+    public Task SendOccupiedSchedule()
     {
         //Arrange
         var cell = new EventFaker().Generate();
         var cells = new []{ cell };
-        _mediator.Setup(x => x.Send(It.IsAny<GetOccupiedDoctorScheduleSlotRequest>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(cells.MapOccupiedSlotsToResponse().ToList().AsReadOnly);
-        var body = await _mediator.Object.Send(new GetOccupiedDoctorScheduleSlotRequest());
+        var body = cells.MapOccupiedSlotsToResponse();
         //Act
         var task = Sut().SendOccupiedSlotsAsync(body, CancellationToken.None);
         //Assert
         Assert.True(task.IsCompletedSuccessfully);
+        return Task.CompletedTask;
     }
 
     private static Mock<IHttpClientFactory> SetupHttpClientFactory()

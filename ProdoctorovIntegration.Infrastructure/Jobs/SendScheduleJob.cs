@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using ProdoctorovIntegration.Application.Requests.Schedule;
 using ProdoctorovIntegration.Application.Services;
 using Quartz;
 
@@ -10,13 +9,13 @@ public class SendScheduleJob : IJob
 {
     private readonly ISendScheduleService _sendScheduleService;
     private readonly ILogger<SendScheduleJob> _logger;
-    private readonly IScopedRequestExecutor _scopedRequestExecutor;
+    private readonly IScheduleService _scheduleService;
 
-    public SendScheduleJob(ISendScheduleService sendScheduleService, ILogger<SendScheduleJob> logger, IScopedRequestExecutor scopedRequestExecutor)
+    public SendScheduleJob(ISendScheduleService sendScheduleService, ILogger<SendScheduleJob> logger, IScheduleService scheduleService)
     {
         _sendScheduleService = sendScheduleService;
         _logger = logger;
-        _scopedRequestExecutor = scopedRequestExecutor;
+        _scheduleService = scheduleService;
     }
 
     public async Task Execute(IJobExecutionContext context)
@@ -24,8 +23,8 @@ public class SendScheduleJob : IJob
         _logger.LogInformation("Job {JobName} has started", nameof(SendScheduleJob));
         try
         {
-            var events = await _scopedRequestExecutor.Execute(new GetScheduleRequest());
-            await _sendScheduleService.SendScheduleAsync(events, new CancellationToken());
+            var events = await _scheduleService.GetScheduleAsync();
+            await _sendScheduleService.SendScheduleAsync(events);
         }
         catch (Exception ex)
         {

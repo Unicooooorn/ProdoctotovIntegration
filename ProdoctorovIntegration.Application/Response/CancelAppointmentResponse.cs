@@ -1,4 +1,4 @@
-﻿namespace ProdoctorovIntegration.Application.Command.CancelAppointment;
+﻿namespace ProdoctorovIntegration.Application.Response;
 
 public class CancelAppointmentResponse
 {

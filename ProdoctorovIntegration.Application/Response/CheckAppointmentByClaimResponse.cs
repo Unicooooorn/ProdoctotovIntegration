@@ -1,4 +1,4 @@
-﻿namespace ProdoctorovIntegration.Application.Requests.CheckAppointmentByClaim;
+﻿namespace ProdoctorovIntegration.Application.Response;
 
 public class CheckAppointmentByClaimResponse
 {

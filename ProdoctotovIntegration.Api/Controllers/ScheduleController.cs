@@ -1,11 +1,9 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ProdoctorovIntegration.Application.Command.CancelAppointment;
-using ProdoctorovIntegration.Application.Command.RecordClient;
-using ProdoctorovIntegration.Application.Command.RefreshAppointment;
+using ProdoctorovIntegration.Application.Common;
 using ProdoctorovIntegration.Application.Options.Authentication;
-using ProdoctorovIntegration.Application.Requests.CheckAppointmentByClaim;
+using ProdoctorovIntegration.Application.Response;
+using ProdoctorovIntegration.Application.Services;
 
 namespace ProdoctorovIntegration.Api.Controllers;
 
@@ -14,39 +12,42 @@ namespace ProdoctorovIntegration.Api.Controllers;
 [Authorize(AuthenticationSchemes = ApiKeyAuthenticationOptions.AuthenticationScheme)]
 public class ScheduleController : ControllerBase
 {
-    private readonly IMediator _mediator;
+    private readonly IScheduleService _scheduleService;
 
-    public ScheduleController(IMediator mediator)
+    public ScheduleController(IScheduleService scheduleService)
     {
-        _mediator = mediator;
+        _scheduleService = scheduleService;
     }
 
     [HttpPost("record_client")]
     [ProducesResponseType(typeof(RecordClientResponse), StatusCodes.Status200OK)]
-    public async Task<RecordClientResponse> RecordClientAsync([FromQuery] RecordClientCommand command)
+    public async Task<IActionResult> RecordClientAsync([FromQuery] WorkerDto worker, [FromQuery] AppointmentDto appointment, [FromQuery] ClientDto client, [FromQuery] string appointmentSource)
     {
-        return await _mediator.Send(command);
+        var response = await _scheduleService.RecordClientAsync(worker, appointment, client, appointmentSource);
+        return Ok(response);
     }
 
     [HttpPost("cancel_appointment")]
     [ProducesResponseType(typeof(CancelAppointmentResponse), StatusCodes.Status200OK)]
-    public async Task<CancelAppointmentResponse> CancelAppointmentAsync([FromQuery] CancelAppointmentCommand command)
+    public async Task<IActionResult> CancelAppointmentAsync([FromQuery] string claimId)
     {
-        return await _mediator.Send(command);
+        var response = await _scheduleService.CancelAppointmentAsync(claimId);
+        return Ok(response);
     }
 
     [HttpPost("check_appointment")]
     [ProducesResponseType(typeof(CheckAppointmentByClaimResponse), StatusCodes.Status200OK)]
-    public async Task<CheckAppointmentByClaimResponse> CheckAppointmentAsync(
-        [FromQuery] CheckAppointmentByClaimRequest request)
+    public async Task<IActionResult> CheckAppointmentAsync([FromQuery] string claimId)
     {
-        return await _mediator.Send(request);
+        var response = await _scheduleService.CheckAppointmentByClaimAsync(claimId);
+        return Ok(response);
     }
 
     [HttpPost("refresh_appointment")]
     [ProducesResponseType(typeof(RefreshAppointmentResponse), StatusCodes.Status200OK)]
-    public async Task<RefreshAppointmentResponse> RefreshAppointmentAsync([FromQuery] RefreshAppointmentCommand command)
+    public async Task<IActionResult> RefreshAppointmentAsync([FromQuery] string claimId, WorkerDto worker, AppointmentDto appointment, ClientDto client)
     {
-        return await _mediator.Send(command);
+        var response = await _scheduleService.RefreshAppointmentAsync(claimId, worker, appointment, client);
+        return Ok(response);
     }
 }

@@ -34,9 +34,10 @@ namespace ProdoctorovIntegration.Infrastructure.Configuration
         public static void AddServices(this IServiceCollection service)
         {
             service.AddHttpClient();
-            service.AddSingleton<ISendScheduleService, SendScheduleService>();
-            service.AddSingleton<SendScheduleJob>();
-            service.AddSingleton<IScopedRequestExecutor, ScopedRequestExecutor>();
+            service.AddScoped<ISendScheduleService, SendScheduleService>();
+            service.AddScoped<SendScheduleJob>();
+            service.AddScoped<IScheduleService, ScheduleService>();
+            service.AddScoped<IClientService, ClientService>();
         }
     }
 }

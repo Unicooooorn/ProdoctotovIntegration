@@ -1,8 +1,7 @@
-﻿using System.Text;
-using ProdoctorovIntegration.Application.Requests.OccupiedDoctorScheduleSlot;
-using ProdoctorovIntegration.Application.Requests.Schedule;
+﻿using ProdoctorovIntegration.Application.Response;
 using ProdoctorovIntegration.Domain;
 using ProdoctorovIntegration.Domain.Worker;
+using System.Text;
 
 namespace ProdoctorovIntegration.Application.Mapping;
 

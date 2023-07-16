@@ -4,10 +4,8 @@ using Microsoft.OpenApi.Models;
 using ProdoctorovIntegration.Application.Authentication;
 using ProdoctorovIntegration.Application.Options;
 using ProdoctorovIntegration.Application.Options.Authentication;
-using ProdoctorovIntegration.Application.Requests.Schedule;
 using ProdoctorovIntegration.Infrastructure.Configuration;
 using Serilog;
-using System.Reflection;
 
 var logger = LoggingConfiguration.GetLogger();
 Log.Logger = logger;
@@ -36,7 +34,7 @@ builder.Services.AddOptions()
 builder.Services.Configure<ConnectionOptions>(builder.Configuration.GetSection(ConnectionOptions.Position));
 builder.Services.Configure<OrganizationNameOptions>(builder.Configuration.GetSection(OrganizationNameOptions.Position));
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(GetScheduleRequest))!));
+
 
 builder.Services.AddAuthorization(o =>
 {

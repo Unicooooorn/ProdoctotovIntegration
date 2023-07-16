@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace ProdoctorovIntegration.Application.Requests.Schedule;
+namespace ProdoctorovIntegration.Application.Response;
 
 public class GetScheduleResponse
 {
