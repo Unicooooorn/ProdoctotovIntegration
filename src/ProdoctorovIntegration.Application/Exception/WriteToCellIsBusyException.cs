@@ -2,8 +2,5 @@
 
 public class WriteToCellIsBusyException : System.Exception
 {
-    public WriteToCellIsBusyException(string message) : base(message)
-    {
-        
-    }
+    public WriteToCellIsBusyException(string message) : base(message) { }
 }
