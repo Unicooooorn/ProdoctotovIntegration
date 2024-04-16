@@ -62,9 +62,9 @@ public class ScheduleService : IScheduleService
         };
     }
 
-    public async Task<RefreshAppointmentResponse> RefreshAppointmentAsync(string claimIdString, WorkerDto? worker, AppointmentDto? appointment, ClientDto? client, CancellationToken cancellationToken = default)
+    public async Task<RefreshAppointmentResponse> RefreshAppointmentAsync(string claimId, WorkerDto? worker, AppointmentDto? appointment, ClientDto? client, CancellationToken cancellationToken = default)
     {
-        if (!Guid.TryParse(claimIdString, out var claimId))
+        if (!Guid.TryParse(claimId, out var guid))
             return new RefreshAppointmentResponse
             {
                 StatusCode = 404
@@ -72,10 +72,10 @@ public class ScheduleService : IScheduleService
 
         if (worker is not null || appointment is not null || client is not null)
         {
-            return await RefreshInOtherAppointmentAsync(claimId, worker, appointment, client, cancellationToken);
+            return await RefreshInOtherAppointmentAsync(guid, worker, appointment, client, cancellationToken);
         }
 
-        return await _dbContext.Event.AnyAsync(x => x.ClaimId == claimId, cancellationToken)
+        return await _dbContext.Event.AnyAsync(x => x.ClaimId == guid, cancellationToken)
             ? new RefreshAppointmentResponse
             {
                 StatusCode = 204
@@ -235,7 +235,7 @@ public class ScheduleService : IScheduleService
         using var mutexHandle = await _sharedMutexManager.LockAsync($"WRITE_CLIENT_TO_CELL_{cellId}");
 
         if (mutexHandle == default)
-            throw new CellIsBusyException("Запись в ячейку занята");
+            throw new WriteToCellIsBusyException("Запись в ячейку занята");
 
         await using var transaction = await _dbContext.Database.BeginTransactionAsync();
         try
