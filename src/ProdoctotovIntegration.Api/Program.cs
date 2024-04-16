@@ -37,8 +37,6 @@ builder.Services.AddOptions()
 builder.Services.Configure<ConnectionOptions>(builder.Configuration.GetSection(ConnectionOptions.Position));
 builder.Services.Configure<OrganizationNameOptions>(builder.Configuration.GetSection(OrganizationNameOptions.Position));
 
-
-
 builder.Services.AddAuthorization(o =>
 {
     o.AddPolicy(ApiKeyAuthenticationOptions.AuthenticationScheme, policy =>

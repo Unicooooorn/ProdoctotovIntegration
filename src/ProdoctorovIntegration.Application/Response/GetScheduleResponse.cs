@@ -4,7 +4,6 @@ namespace ProdoctorovIntegration.Application.Response;
 
 public class GetScheduleResponse
 {
-
     public Schedule Schedule { get; set; } = new();
 }
 

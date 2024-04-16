@@ -53,7 +53,6 @@ public class SendScheduleService : ISendScheduleService
             var response = await client.PostAsync(uri, content, cancellationToken);
 
             response.EnsureSuccessStatusCode();
-            
         }
         catch (HttpRequestException ex)
         {

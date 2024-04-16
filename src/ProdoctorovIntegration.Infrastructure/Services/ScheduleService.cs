@@ -86,7 +86,6 @@ public class ScheduleService : IScheduleService
             };
     }
 
-
     public async Task<RecordClientResponse> RecordClientAsync(WorkerDto worker, AppointmentDto appointment, ClientDto client, string appointmentSource, CancellationToken cancellationToken = default)
     {
         var clientId = await _clientService.FindClientAsync(client, cancellationToken);
@@ -203,7 +202,6 @@ public class ScheduleService : IScheduleService
 
         if (client != null)
         {
-
             var clientId = await _clientService.FindClientAsync(client, cancellationToken);
             var newClient = await _dbContext.Client.FirstOrDefaultAsync(x => x.Id == clientId, cancellationToken);
             currentAppointment.Client = newClient;

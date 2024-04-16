@@ -37,7 +37,6 @@ public class SendScheduleServiceTests : BaseHospitalTestWithDb
         {
             Token = Token
         };
-
     }
 
     private SendScheduleService Sut()
