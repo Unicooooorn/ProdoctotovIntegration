@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProdoctorovIntegration.Api", "ProdoctotovIntegration.Api\ProdoctorovIntegration.Api.csproj", "{F8BF1C3E-EE86-4051-B33A-374571BDAAA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProdoctorovIntegration.Api", "src\ProdoctotovIntegration.Api\ProdoctorovIntegration.Api.csproj", "{99227E7D-E2C2-49E7-97C0-9C048C041CDF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProdoctorovIntegration.Infrastructure", "ProdoctorovIntegration.Infrastructure\ProdoctorovIntegration.Infrastructure.csproj", "{37FD97A9-DC61-4E36-9120-546422E0D113}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProdoctorovIntegration.Application", "src\ProdoctorovIntegration.Application\ProdoctorovIntegration.Application.csproj", "{F1771C55-E0B1-47BA-95B7-52958B38A51A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProdoctorovIntegration.Application", "ProdoctorovIntegration.Application\ProdoctorovIntegration.Application.csproj", "{C52DA7B3-5129-477D-BC02-297E27C8FEE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProdoctorovIntegration.Infrastructure", "src\ProdoctorovIntegration.Infrastructure\ProdoctorovIntegration.Infrastructure.csproj", "{30D802B6-F62B-47A8-ADEB-796745DCCBF8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProdoctorovIntegration.Domain", "ProdoctorovIntegration.Domain\ProdoctorovIntegration.Domain.csproj", "{16D4A364-E537-4BED-888E-366DD171B601}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProdoctorovIntegration.Domain", "src\ProdoctorovIntegration.Domain\ProdoctorovIntegration.Domain.csproj", "{2CB7F044-8B24-407B-B8F4-7A230F0F20D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdoctorovIntegration.Tests", "ProdoctorovIntegration.Tests\ProdoctorovIntegration.Tests.csproj", "{143EC81A-EC56-46A7-8C7C-39ACA5013420}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProdoctorovIntegration.Tests", "src\ProdoctorovIntegration.Tests\ProdoctorovIntegration.Tests.csproj", "{AD446593-E858-4C07-A847-D5814D7BA38D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,26 +19,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F8BF1C3E-EE86-4051-B33A-374571BDAAA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8BF1C3E-EE86-4051-B33A-374571BDAAA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F8BF1C3E-EE86-4051-B33A-374571BDAAA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8BF1C3E-EE86-4051-B33A-374571BDAAA9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{37FD97A9-DC61-4E36-9120-546422E0D113}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{37FD97A9-DC61-4E36-9120-546422E0D113}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{37FD97A9-DC61-4E36-9120-546422E0D113}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{37FD97A9-DC61-4E36-9120-546422E0D113}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C52DA7B3-5129-477D-BC02-297E27C8FEE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C52DA7B3-5129-477D-BC02-297E27C8FEE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C52DA7B3-5129-477D-BC02-297E27C8FEE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C52DA7B3-5129-477D-BC02-297E27C8FEE6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{16D4A364-E537-4BED-888E-366DD171B601}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{16D4A364-E537-4BED-888E-366DD171B601}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{16D4A364-E537-4BED-888E-366DD171B601}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{16D4A364-E537-4BED-888E-366DD171B601}.Release|Any CPU.Build.0 = Release|Any CPU
-		{143EC81A-EC56-46A7-8C7C-39ACA5013420}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{143EC81A-EC56-46A7-8C7C-39ACA5013420}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{143EC81A-EC56-46A7-8C7C-39ACA5013420}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{143EC81A-EC56-46A7-8C7C-39ACA5013420}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99227E7D-E2C2-49E7-97C0-9C048C041CDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99227E7D-E2C2-49E7-97C0-9C048C041CDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99227E7D-E2C2-49E7-97C0-9C048C041CDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99227E7D-E2C2-49E7-97C0-9C048C041CDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1771C55-E0B1-47BA-95B7-52958B38A51A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1771C55-E0B1-47BA-95B7-52958B38A51A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1771C55-E0B1-47BA-95B7-52958B38A51A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1771C55-E0B1-47BA-95B7-52958B38A51A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30D802B6-F62B-47A8-ADEB-796745DCCBF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30D802B6-F62B-47A8-ADEB-796745DCCBF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30D802B6-F62B-47A8-ADEB-796745DCCBF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30D802B6-F62B-47A8-ADEB-796745DCCBF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CB7F044-8B24-407B-B8F4-7A230F0F20D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CB7F044-8B24-407B-B8F4-7A230F0F20D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CB7F044-8B24-407B-B8F4-7A230F0F20D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CB7F044-8B24-407B-B8F4-7A230F0F20D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD446593-E858-4C07-A847-D5814D7BA38D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD446593-E858-4C07-A847-D5814D7BA38D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD446593-E858-4C07-A847-D5814D7BA38D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD446593-E858-4C07-A847-D5814D7BA38D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
